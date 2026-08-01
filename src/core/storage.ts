@@ -63,8 +63,15 @@ function safeParse<T>(raw: string | null): T | null {
 export function mergeConfig(stored: unknown): AppConfig {
   if (!stored || typeof stored !== 'object') return DEFAULT_CONFIG;
   const partial = stored as Partial<AppConfig>;
+  const brand = { ...DEFAULT_CONFIG.brand, ...(partial.brand ?? {}) };
   return {
-    brand: { ...DEFAULT_CONFIG.brand, ...(partial.brand ?? {}) },
+    brand: {
+      ...brand,
+      // Si quedó guardado el marcador de instalación, se usa el enlace real.
+      googleReviewUrl: isPlaceholderReviewUrl(brand.googleReviewUrl)
+        ? DEFAULT_CONFIG.brand.googleReviewUrl
+        : brand.googleReviewUrl,
+    },
     rules: { ...DEFAULT_CONFIG.rules, ...(partial.rules ?? {}) },
     prizes:
       Array.isArray(partial.prizes) && partial.prizes.length > 0
@@ -75,6 +82,12 @@ export function mergeConfig(stored: unknown): AppConfig {
         ? partial.programs.map((program) => ({ ...program }))
         : DEFAULT_CONFIG.programs,
   };
+}
+
+/** Detecta un enlace de reseñas sin configurar (marcador o vacío). */
+export function isPlaceholderReviewUrl(url: unknown): boolean {
+  if (typeof url !== 'string' || url.trim() === '') return true;
+  return /TU_PLACE_ID|PLACE_ID_AQUI|placeid=$/i.test(url);
 }
 
 export function loadConfig(store: KeyValueStore = defaultStore()): AppConfig {

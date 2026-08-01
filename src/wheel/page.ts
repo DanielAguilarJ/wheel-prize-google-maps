@@ -227,9 +227,8 @@ function renderResult(play: PlayRecord, now: Date): void {
   }
 
   const reviewUrl = safeGoogleReviewUrl(config.brand.googleReviewUrl);
-  for (const selector of ['#review-link', '#review-link-alt']) {
-    const anchor = qs<HTMLAnchorElement>(selector);
-    if (!anchor) continue;
+  const anchor = qs<HTMLAnchorElement>('#review-link');
+  if (anchor) {
     if (reviewUrl) {
       anchor.href = reviewUrl;
       anchor.addEventListener('click', () => {
@@ -259,12 +258,18 @@ function setupRating(): void {
         updatePlay(currentPlay.id, { rating: value });
       }
 
-      const positive = value >= 5;
-      const reviewBlock = qs('#review-block');
+      // El enlace público nunca se oculta ni se condiciona a la calificación.
+      // Con nota baja se ofrece, además, un canal privado para poder corregir.
+      const low = value <= 4;
       const feedbackBlock = qs('#feedback-block');
-      if (reviewBlock) reviewBlock.hidden = !positive;
-      if (feedbackBlock) feedbackBlock.hidden = positive;
-      scrollIntoViewSafe(positive ? reviewBlock : feedbackBlock);
+      if (feedbackBlock) feedbackBlock.hidden = !low;
+      setText(
+        qs('#rating-thanks'),
+        low
+          ? 'Gracias. Cuéntanos abajo qué pasó: queremos resolverlo.'
+          : '¡Gracias! Esta respuesta es interna y no se publica en ningún sitio.',
+      );
+      if (low) scrollIntoViewSafe(feedbackBlock);
     });
   }
 }

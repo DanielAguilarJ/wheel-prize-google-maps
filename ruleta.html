@@ -126,14 +126,30 @@
           <button class="copy-btn" type="button" id="copy-code">Copiar código</button>
         </div>
 
-        <a class="btn btn--wa btn--block" id="claim-wa" href="#" target="_blank" rel="noopener">
+        <!-- Reseña: visible para todos, sin condiciones -->
+        <div id="review-block">
+          <h3 style="text-align: center; margin-bottom: 6px">¿Nos regalas 30 segundos más?</h3>
+          <div class="review-hint">
+            <strong>Idea para tu reseña:</strong>
+            <span id="review-hint-text"></span>
+          </div>
+          <a class="btn btn--gold btn--block btn--lg mt-24" id="review-link" href="#" target="_blank" rel="noopener">
+            ⭐ Escribir mi reseña en Google
+          </a>
+          <p class="note text-center" style="margin-top: 8px">
+            Se abre directo el cuadro para escribir. Escribe con tus propias palabras: tu premio ya
+            es tuyo y no depende de lo que pongas.
+          </p>
+        </div>
+
+        <a class="btn btn--wa btn--block mt-24" id="claim-wa" href="#" target="_blank" rel="noopener">
           💬 Reclamar mi premio por WhatsApp
         </a>
 
         <hr style="border: 0; border-top: 1px solid var(--line); margin: 24px 0" />
 
         <div id="rating-block">
-          <h3 style="text-align: center">¿Cómo ha sido tu experiencia con nosotros?</h3>
+          <h3 style="text-align: center">Y para nosotros: ¿cómo ha sido tu experiencia?</h3>
           <div class="rating" id="rating" role="group" aria-label="Califica tu experiencia">
             <button class="rating__star" type="button" data-value="1" aria-label="1 estrella">⭐</button>
             <button class="rating__star" type="button" data-value="2" aria-label="2 estrellas">⭐</button>
@@ -141,39 +157,22 @@
             <button class="rating__star" type="button" data-value="4" aria-label="4 estrellas">⭐</button>
             <button class="rating__star" type="button" data-value="5" aria-label="5 estrellas">⭐</button>
           </div>
-          <p class="note text-center">Tu respuesta es anónima para el premio: ya lo ganaste.</p>
-        </div>
-
-        <!-- Camino A: experiencia positiva -->
-        <div id="review-block" hidden>
-          <div class="review-hint">
-            <strong>Idea para tu reseña:</strong>
-            <span id="review-hint-text"></span>
-          </div>
-          <a class="btn btn--block mt-24" id="review-link" href="#" target="_blank" rel="noopener">
-            ⭐ Escribir mi reseña en Google
-          </a>
-          <p class="legal-note">
-            Escribe con tus propias palabras. No te pedimos ninguna calificación en particular y tu
-            premio ya es tuyo.
+          <p class="note text-center" id="rating-thanks">
+            Esta respuesta es interna y no se publica en ningún sitio.
           </p>
         </div>
 
-        <!-- Camino B: experiencia mejorable -->
+        <!-- Canal privado cuando la experiencia fue mejorable -->
         <div id="feedback-block" hidden>
           <h3>Gracias por la honestidad. ¿Qué podemos mejorar?</h3>
           <p class="note">
-            Esto llega directo a la dirección académica y nos ayuda a corregir. Si prefieres
-            hacerlo público, el enlace de Google también está abajo.
+            Esto llega directo a la dirección académica y nos ayuda a corregir.
           </p>
           <label class="field">
             <span class="visually-hidden">Tu comentario</span>
             <textarea id="feedback-text" rows="4" maxlength="600" placeholder="Cuéntanos qué pasó…"></textarea>
           </label>
           <button class="btn btn--block" type="button" id="feedback-send">Enviar comentario privado</button>
-          <a class="btn btn--ghost btn--block mt-24" id="review-link-alt" href="#" target="_blank" rel="noopener">
-            También quiero dejar mi reseña pública en Google
-          </a>
         </div>
       </section>
 

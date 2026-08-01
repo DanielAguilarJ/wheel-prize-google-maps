@@ -47,9 +47,20 @@ npm run preview  # sirve dist/ para revisarlo antes de publicar
 1. **Abre `admin.html` → pestaña “Marca y enlaces”.**
    - WhatsApp real en formato `52` + 10 dígitos (ej. `525512345678`).
    - Correo, teléfono, horario y sede.
-2. **Pega tu enlace de reseñas de Google.** En tu ficha de Google Business Profile:
-   *Pedir reseñas → copiar enlace*. Sólo se aceptan dominios de Google (`g.page`,
-   `maps.app.goo.gl`, `search.google.com`); cualquier otro se rechaza por seguridad.
+2. **El enlace de reseñas ya viene configurado** con la ficha real de WorldBrain en Cuautitlán
+   Izcalli:
+
+   ```
+   Place ID: ChIJA_UWvz4e0oURXT3jeebn4-Y
+   CID:      16637396425510174045
+   Enlace:   https://search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y
+   ```
+
+   Se derivó del par hexadecimal `0x85d21e3ebf16f503:0xe6e3e7e679e33d5d` que aparece en la URL de
+   tu ficha de Maps (el algoritmo está verificado contra un caso de control conocido en las
+   pruebas). **Confírmalo una vez**: abre el enlace con tu sesión de Google y comprueba que el
+   cuadro que aparece diga *WorldBrain*. Si prefieres el enlace corto oficial, cópialo desde tu
+   Perfil de Empresa (*Pedir reseñas*) y pégalo en el panel; también se acepta `g.page`.
 3. **Ajusta premios y pesos** en la pestaña “Premios”. El peso es relativo: peso 22 sobre un total
    de 100 significa 22% de probabilidad. La columna de probabilidad se recalcula en vivo.
 4. **Define las reglas**: horas de espera entre giros del mismo dispositivo, vigencia del código,
@@ -76,6 +87,29 @@ inalcanzable). Con peso 0 nunca sale.
 
 ---
 
+## Por qué el visitante no ve las reseñas de otras personas
+
+El enlace usa `search.google.com/local/writereview?placeid=…`, que abre **directamente el cuadro
+para escribir** (estrellas + texto). No pasa por `/maps/place/…`, que es la vista donde sí se
+listan las reseñas ajenas. Efecto práctico: quien viene de la ruleta escribe su opinión sin que la
+nota actual ni los comentarios de otros le condicionen.
+
+Hay una prueba automática que lo protege: si alguien cambia el enlace a una URL de tipo
+`/maps/place`, la suite falla.
+
+Tres precisiones honestas:
+
+- **La UI es de Google, no mía.** Puede mostrar la nota media o el nombre del negocio en el
+  encabezado del diálogo, y en algunos dispositivos abre la app de Maps. No puedo controlar eso.
+- **No se pueden ocultar ni filtrar las reseñas que ya existen.** Nadie puede, salvo Google, y
+  sólo si una reseña viola sus políticas (puedes reportarla desde tu Perfil de Empresa).
+- **La única palanca legítima para subir la nota es el volumen de reseñas genuinas.** Es
+  exactamente lo que hace esta herramienta: si tu mayoría real está contenta, más reseñas mueven el
+  promedio hacia arriba. Con 40 reseñas de 4.2★, sumar 60 reseñas de 5★ te deja cerca de 4.7★; con
+  20 más no se mueve casi nada. El trabajo está en el volumen sostenido, no en el filtrado.
+
+---
+
 ## Cumplimiento: lo que sí y lo que no
 
 Esta parte es la que más importa, porque el competidor que copiaste promete cosas que Google
@@ -85,10 +119,11 @@ prohíbe.
 
 - El premio se entrega **por girar la ruleta**, no por reseñar. Se gana igual si la persona
   reseña o no.
-- El enlace a Google se ofrece **después**, como invitación opcional.
+- El botón de reseña se ofrece **a todo el mundo**, sin depender de la calificación que haya dado
+  en la encuesta interna.
 - Se sugiere *de qué* hablar (el programa, el avance observado), nunca la calificación ni el texto.
-- Si alguien tuvo mala experiencia, se le ofrece primero un canal privado — **sin quitarle** el
-  enlace público.
+- Si alguien tuvo mala experiencia, se le ofrece **además** un canal privado para poder corregir —
+  sin quitarle en ningún momento el enlace público.
 
 **Lo que NO hace, y no deberías añadir:**
 

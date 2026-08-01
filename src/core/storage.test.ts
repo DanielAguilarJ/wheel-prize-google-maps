@@ -4,6 +4,7 @@ import {
   clearPlays,
   cooldownState,
   createMemoryStore,
+  isPlaceholderReviewUrl,
   loadConfig,
   loadPlays,
   markSpin,
@@ -53,6 +54,43 @@ describe('mergeConfig', () => {
 
   it('usa los premios por defecto si la lista guardada está vacía', () => {
     expect(mergeConfig({ prizes: [] }).prizes).toEqual(DEFAULT_CONFIG.prizes);
+  });
+
+  it('reemplaza un enlace de reseñas sin configurar por el real', () => {
+    const merged = mergeConfig({
+      brand: { googleReviewUrl: 'https://search.google.com/local/writereview?placeid=TU_PLACE_ID' },
+    });
+    expect(merged.brand.googleReviewUrl).toBe(DEFAULT_CONFIG.brand.googleReviewUrl);
+    expect(merged.brand.googleReviewUrl).toContain('ChIJA_UWvz4e0oURXT3jeebn4-Y');
+  });
+
+  it('respeta un enlace de reseñas ya configurado', () => {
+    const custom = 'https://g.page/r/CabcDEF/review';
+    expect(mergeConfig({ brand: { googleReviewUrl: custom } }).brand.googleReviewUrl).toBe(custom);
+  });
+});
+
+describe('isPlaceholderReviewUrl', () => {
+  it('detecta marcadores y valores vacíos', () => {
+    expect(isPlaceholderReviewUrl('')).toBe(true);
+    expect(isPlaceholderReviewUrl('   ')).toBe(true);
+    expect(isPlaceholderReviewUrl(undefined)).toBe(true);
+    expect(isPlaceholderReviewUrl('https://search.google.com/local/writereview?placeid=TU_PLACE_ID')).toBe(true);
+    expect(isPlaceholderReviewUrl('https://search.google.com/local/writereview?placeid=')).toBe(true);
+  });
+
+  it('acepta enlaces reales', () => {
+    expect(isPlaceholderReviewUrl(DEFAULT_CONFIG.brand.googleReviewUrl)).toBe(false);
+    expect(isPlaceholderReviewUrl('https://g.page/r/CabcDEF/review')).toBe(false);
+  });
+});
+
+describe('enlace de reseña por defecto', () => {
+  it('apunta al compositor de reseñas de la ficha de WorldBrain', () => {
+    const url = new URL(DEFAULT_CONFIG.brand.googleReviewUrl);
+    expect(url.origin).toBe('https://search.google.com');
+    expect(url.pathname).toBe('/local/writereview');
+    expect(url.searchParams.get('placeid')).toBe('ChIJA_UWvz4e0oURXT3jeebn4-Y');
   });
 });
 

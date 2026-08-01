@@ -107,6 +107,29 @@ describe('ruleta (ruleta.html)', () => {
     expect(document.querySelector<HTMLElement>('#screen-wheel')?.hidden).toBe(false);
     expect(document.querySelector('#player-name')?.textContent).toBe('Ana');
   });
+
+  it('el bloque de reseña es visible para todos y no depende de la calificación', async () => {
+    loadPage('ruleta.html');
+    await import('./wheel/page');
+
+    // No está oculto en el HTML: se ofrece a cualquiera que gire.
+    expect(document.querySelector<HTMLElement>('#review-block')?.hidden).toBe(false);
+    // El canal privado empieza oculto y sólo aparece con nota baja.
+    expect(document.querySelector<HTMLElement>('#feedback-block')?.hidden).toBe(true);
+    // No existe una segunda ruta "alternativa": hay un único enlace público.
+    expect(document.querySelector('#review-link-alt')).toBeNull();
+  });
+
+  it('el enlace de reseña abre el compositor de la ficha, no la lista de reseñas', async () => {
+    loadPage('ruleta.html');
+    await import('./wheel/page');
+    const { DEFAULT_CONFIG } = await import('./core/defaults');
+
+    const url = new URL(DEFAULT_CONFIG.brand.googleReviewUrl);
+    expect(url.pathname).toBe('/local/writereview');
+    // Nunca se apunta a /maps/place, que sí muestra las reseñas de otras personas.
+    expect(DEFAULT_CONFIG.brand.googleReviewUrl).not.toContain('/maps/place');
+  });
 });
 
 describe('panel (admin.html)', () => {
