@@ -1,15 +1,12 @@
 import '../styles/base.css';
-import '../styles/landing.css';
 import '../styles/ruleta.css';
 
 import { loadConfig, appendPlay, updatePlay, markSpin, cooldownState } from '../core/storage';
 import { expiryDate, pickPrize } from '../core/prizes';
 import {
   buildPlayRecord,
-  redeemMessage,
   safeGoogleReviewUrl,
   validateLead,
-  whatsappLink,
   type LeadInput,
 } from '../core/lead';
 import { formatRemaining, remainingUntil } from '../core/countdown';
@@ -221,11 +218,6 @@ function renderResult(play: PlayRecord, now: Date): void {
     })}`,
   );
 
-  const claim = qs<HTMLAnchorElement>('#claim-wa');
-  if (claim) {
-    claim.href = whatsappLink(config.brand.whatsapp, redeemMessage(play, config.brand.institute));
-  }
-
   const reviewUrl = safeGoogleReviewUrl(config.brand.googleReviewUrl);
   const anchor = qs<HTMLAnchorElement>('#review-link');
   if (anchor) {
@@ -316,14 +308,6 @@ function setupCopyCode(): void {
  * ------------------------------------------------------------------ */
 
 function setupCooldownScreen(remainingMs: number): void {
-  const wa = qs<HTMLAnchorElement>('#cooldown-wa');
-  if (wa) {
-    wa.href = whatsappLink(
-      config.brand.whatsapp,
-      `Hola ${config.brand.institute}, tengo un código de premio de UltraGiro pendiente de canjear.`,
-    );
-  }
-
   const deadline = new Date(Date.now() + remainingMs);
   const tick = (): void => {
     const remaining = remainingUntil(new Date(), deadline);

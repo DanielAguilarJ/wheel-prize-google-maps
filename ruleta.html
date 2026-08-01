@@ -7,6 +7,9 @@
     <meta name="description" content="Gira la ruleta de WorldBrain México y gana un premio de nuestro catálogo." />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#2E1065" />
+    <!-- El destino del recorrido es siempre este dominio: se resuelve el DNS por adelantado. -->
+    <link rel="dns-prefetch" href="https://g.page" />
+    <link rel="preconnect" href="https://g.page" crossorigin />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A1%3C/text%3E%3C/svg%3E" />
   </head>
   <body>
@@ -43,7 +46,7 @@
           </label>
 
           <label class="field">
-            <span>WhatsApp o correo *</span>
+            <span>Celular o correo *</span>
             <input
               type="text"
               id="lead-contact"
@@ -126,7 +129,7 @@
           <button class="copy-btn" type="button" id="copy-code">Copiar código</button>
         </div>
 
-        <!-- Reseña: visible para todos, sin condiciones -->
+        <!-- Reseña: la única salida del recorrido, visible para todos -->
         <div id="review-block">
           <h3 style="text-align: center; margin-bottom: 6px">¿Nos regalas 30 segundos más?</h3>
           <div class="review-hint">
@@ -142,9 +145,10 @@
           </p>
         </div>
 
-        <a class="btn btn--wa btn--block mt-24" id="claim-wa" href="#" target="_blank" rel="noopener">
-          💬 Reclamar mi premio por WhatsApp
-        </a>
+        <p class="claim-note">
+          🎁 <strong>Para llevarte tu premio:</strong> muestra esta pantalla o di tu código en
+          recepción. Toma una captura para no perderlo.
+        </p>
 
         <hr style="border: 0; border-top: 1px solid var(--line); margin: 24px 0" />
 
@@ -185,11 +189,8 @@
         </p>
         <p class="cooldown__time" id="cooldown-time">00:00:00</p>
         <p class="note">
-          ¿Tienes un premio pendiente de canjear? Escríbenos por WhatsApp con tu código.
+          ¿Tienes un premio pendiente? Muestra tu código en recepción y te lo entregamos.
         </p>
-        <a class="btn btn--wa btn--block" id="cooldown-wa" href="#" target="_blank" rel="noopener">
-          💬 Escribir por WhatsApp
-        </a>
       </section>
 
       <p class="play__foot">

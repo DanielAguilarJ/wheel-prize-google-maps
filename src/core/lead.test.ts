@@ -5,11 +5,9 @@ import {
   isValidContact,
   isValidEmail,
   isValidMexicanPhone,
-  redeemMessage,
   safeGoogleReviewUrl,
   sanitizeText,
   validateLead,
-  whatsappLink,
 } from './lead';
 import type { Prize } from './types';
 
@@ -155,42 +153,6 @@ describe('buildPlayRecord', () => {
     expect(buildPlayRecord({ ...base, lead: { ...lead, source: 'feria-izcalli' } }).source).toBe(
       'feria-izcalli',
     );
-  });
-});
-
-describe('whatsappLink', () => {
-  it('limpia el teléfono y codifica el mensaje', () => {
-    expect(whatsappLink('+52 55 1234 5678', 'hola mundo & más')).toBe(
-      'https://wa.me/525512345678?text=hola%20mundo%20%26%20m%C3%A1s',
-    );
-  });
-});
-
-describe('redeemMessage', () => {
-  it('incluye premio, código y programa', () => {
-    const message = redeemMessage(
-      {
-        id: 'p1',
-        at: '2026-03-01T10:00:00.000Z',
-        prizeId: 'diagnostico',
-        prizeLabel: 'Diagnóstico gratis',
-        code: 'WB-AAAA-BBBB',
-        name: 'Ana',
-        contact: 'ana@example.com',
-        programId: 'fotolectura',
-        audience: 'jovenes-adultos',
-        source: 'directo',
-        consent: true,
-        rating: 5,
-        feedback: '',
-        reviewOpened: true,
-        redeemed: false,
-      },
-      'WorldBrain México',
-    );
-    expect(message).toContain('Diagnóstico gratis');
-    expect(message).toContain('WB-AAAA-BBBB');
-    expect(message).toContain('fotolectura');
   });
 });
 

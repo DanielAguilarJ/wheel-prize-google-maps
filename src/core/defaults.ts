@@ -214,8 +214,6 @@ export const DEFAULT_CONFIG: AppConfig = Object.freeze({
     legalName: 'CWBMX, S.C.',
     site: 'ultravelozmente.com',
     city: 'Cuautitlán Izcalli, Estado de México',
-    // Reemplaza por tu número real en formato internacional sin signos.
-    whatsapp: '525500000000',
     phone: '+52 55 0000 0000',
     email: 'contacto@ultravelozmente.com',
     hours: 'Lunes a sábado, 9:00 a 20:00',

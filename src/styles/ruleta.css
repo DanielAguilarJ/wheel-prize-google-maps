@@ -210,6 +210,16 @@
   color: var(--ink-soft);
 }
 
+.claim-note {
+  margin: 22px 0 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-3);
+  border: 1px dashed var(--line);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
 .legal-note {
   font-size: 0.78rem;
   color: var(--muted);

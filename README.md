@@ -13,7 +13,7 @@ las políticas de Google**.
 
 | Página | Archivo | Para qué sirve |
 | --- | --- | --- |
-| Landing | `index.html` | Página de venta interna: explica el sistema, ruleta demo jugable, catálogo de programas, calculadora de impacto, comparativa, FAQ y CTA a WhatsApp. |
+| Landing | `index.html` | Página de venta interna: explica el sistema, ruleta demo jugable, catálogo de programas, calculadora de impacto, comparativa y FAQ. Todas las llamadas a la acción llevan a la ruleta, al cartel o al panel. |
 | Ruleta del visitante | `ruleta.html` | Lo que se abre al escanear el QR: captura de datos → giro → premio con código → invitación a reseñar. |
 | Panel interno | `admin.html` | Premios y probabilidades, datos de marca, enlace de Google, reglas del juego, estadísticas y exportación CSV. |
 | Cartel imprimible | `cartel.html` | Genera el cartel con QR en 4 estilos, con etiqueta de origen, y lo manda a imprimir. |
@@ -45,8 +45,7 @@ npm run preview  # sirve dist/ para revisarlo antes de publicar
 ## Puesta en marcha en 6 pasos
 
 1. **Abre `admin.html` → pestaña “Marca y enlaces”.**
-   - WhatsApp real en formato `52` + 10 dígitos (ej. `525512345678`).
-   - Correo, teléfono, horario y sede.
+   - Correo, teléfono visible, horario y sede (sólo se usan en el pie de la landing).
 2. **El enlace de reseñas ya viene configurado** con el enlace corto oficial de tu Perfil de
    Empresa:
 
@@ -92,6 +91,50 @@ que el segmento que se detiene bajo la aguja siempre corresponde al premio regis
 
 Para regalar menos premios caros, baja su peso (o ponlo en 0 y deja el segmento visible pero
 inalcanzable). Con peso 0 nunca sale.
+
+---
+
+## Un solo camino: Google Maps
+
+El recorrido del visitante no tiene salidas alternativas. Gira, ve su premio, y el único botón que
+lleva fuera es el de la reseña. El premio se canjea mostrando el código en recepción, sin
+mensajería de por medio. Hay una prueba automática que falla si aparece cualquier otro enlace
+externo en la pantalla de premio, o cualquier rastro de `wa.me`.
+
+---
+
+## Rendimiento
+
+Medido sobre los archivos servidos, comprimidos con gzip:
+
+| Página | Antes | Después | Cambio |
+| --- | --- | --- | --- |
+| `ruleta.html` | 21.2 kB | 18.8 kB | −11% |
+| `cartel.html` | 23.9 kB | 12.4 kB | −47% |
+| `index.html` | 25.8 kB | 25.2 kB | −2% |
+| `admin.html` | 18.6 kB | 18.7 kB | +0% |
+
+Qué se hizo:
+
+- **CSS por página.** `ruleta.html` y `cartel.html` cargaban los 9.9 kB de estilos de la landing sin
+  usarlos. Lo único compartido de verdad (`.wheel-frame`) se movió a `base.css`.
+- **La librería de QR (24 kB) se carga aparte** con `import()` dinámico, después de que el cartel
+  ya está en pantalla. Antes bloqueaba la primera pintura.
+- **La ruleta en vacío de la landing se detiene** cuando sale de la pantalla, cuando la pestaña
+  pasa a segundo plano, y no arranca si el sistema pide reducir el movimiento. Antes repintaba el
+  canvas 60 veces por segundo para siempre, aunque nadie lo estuviera viendo.
+- **`content-visibility: auto`** en las nueve secciones bajo el pliegue: el navegador se ahorra
+  calcular su estilo y disposición hasta que hacen falta. No baja los bytes, baja el trabajo.
+- **La cuenta regresiva pausa su intervalo** con la pestaña oculta y recalcula desde la hora del
+  sistema al volver, así que no se desfasa.
+- **Densidad de píxeles del canvas limitada a 2x** (antes 3x): en pantallas muy densas se pintaban
+  más del doble de píxeles sin diferencia visible.
+- **Los eventos de `resize` se agrupan en un frame**, en vez de reasignar el búfer del canvas en
+  cada uno.
+- **`dns-prefetch` y `preconnect` a `g.page`** en la ruleta: la conexión al destino se resuelve
+  mientras la persona sigue girando.
+
+Sin fuentes web, sin imágenes, sin frameworks: no hay nada más que recortar sin quitar función.
 
 ---
 
@@ -181,7 +224,7 @@ src/
     storage.ts        localStorage, histórico de jugadas, espera entre giros
     stats.ts          KPIs del panel y calculadora de impacto
     csv.ts            Exportación CSV (con defensa contra inyección de fórmulas)
-    lead.ts           Validación de datos, WhatsApp, URL segura de Google
+    lead.ts           Validación de datos y filtro de dominios del enlace de Google
     countdown.ts      Cuenta regresiva cíclica de la promoción
     wheel-geometry.ts Ángulos, segmento bajo la aguja, easing, etiquetas
     qr-url.ts         URL del QR con origen y programa
@@ -219,7 +262,7 @@ guardada).
 
 Están listadas en la landing como "módulos que puedes activar": respuestas asistidas por IA para
 las reseñas, un QR por asesor o sede con tablero comparativo, ruleta embebida en
-ultravelozmente.com, y aviso automático por WhatsApp al ganador.
+ultravelozmente.com, y un recordatorio por correo a quien giró y no llegó a publicar.
 
 ---
 

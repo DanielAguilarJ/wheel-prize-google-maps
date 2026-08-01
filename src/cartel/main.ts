@@ -1,8 +1,6 @@
 import '../styles/base.css';
-import '../styles/landing.css';
 import '../styles/cartel.css';
 
-import QRCode from 'qrcode';
 import { loadConfig } from '../core/storage';
 import { buildQrUrl } from '../core/qr-url';
 import { clear, el, qs, qsa, setText } from '../ui/dom';
@@ -17,6 +15,18 @@ const THEMES: Readonly<Record<string, readonly [string, string]>> = {
 };
 
 let currentTheme = 'violeta';
+
+/**
+ * La librería de QR pesa ~24 kB y sólo hace falta cuando ya se pintó el cartel.
+ * Se carga en un chunk aparte, una sola vez, para que la página aparezca antes.
+ */
+type QrModule = typeof import('qrcode');
+let qrModulePromise: Promise<QrModule> | null = null;
+
+function loadQrLibrary(): Promise<QrModule> {
+  qrModulePromise ??= import('qrcode');
+  return qrModulePromise;
+}
 
 let toastTimer = 0;
 function toast(message: string): void {
@@ -68,6 +78,7 @@ async function renderQr(): Promise<void> {
   const url = buildQrUrl(inputValue('#f-url'), inputValue('#f-source'), inputValue('#f-program'));
 
   try {
+    const QRCode = await loadQrLibrary();
     await QRCode.toCanvas(canvas, url || 'https://ultravelozmente.com', {
       width: 320,
       margin: 1,
@@ -133,6 +144,7 @@ function setupForm(): void {
   qs('#download-qr')?.addEventListener('click', async () => {
     const url = buildQrUrl(inputValue('#f-url'), inputValue('#f-source'), inputValue('#f-program'));
     try {
+      const QRCode = await loadQrLibrary();
       const dataUrl = await QRCode.toDataURL(url, { width: 1024, margin: 2 });
       const link = document.createElement('a');
       link.href = dataUrl;

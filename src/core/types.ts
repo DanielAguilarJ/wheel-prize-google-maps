@@ -42,11 +42,10 @@ export interface BrandConfig {
   readonly legalName: string;
   readonly site: string;
   readonly city: string;
-  readonly whatsapp: string;
   readonly phone: string;
   readonly email: string;
   readonly hours: string;
-  /** URL directa al formulario de reseña de Google (Place ID). */
+  /** Enlace corto del Perfil de Empresa: única salida del recorrido. */
   readonly googleReviewUrl: string;
   /** URL pública donde se publica la ruleta (para el QR del cartel). */
   readonly wheelPublicUrl: string;

@@ -5,7 +5,6 @@ import { loadConfig } from '../core/storage';
 import { pickPrize } from '../core/prizes';
 import { DEFAULT_ASSUMPTIONS, projectImpact } from '../core/stats';
 import { formatRemaining, nextDeadline, remainingUntil } from '../core/countdown';
-import { whatsappLink } from '../core/lead';
 import { Wheel } from '../wheel/wheel';
 import { SAMPLE_REVIEWS } from './reviews.data';
 import { clear, el, int, must, mxn, qs, qsa, setText } from '../ui/dom';
@@ -19,6 +18,10 @@ const config = loadConfig();
 
 const PROMO_ANCHOR = new Date('2026-01-01T00:00:00');
 
+/**
+ * Cuenta regresiva. El intervalo se detiene cuando la pestaña queda en segundo
+ * plano: al volver se recalcula desde la hora del sistema, así que no se desfasa.
+ */
 function startCountdown(): void {
   const hours = qs('[data-countdown="hours"]');
   const minutes = qs('[data-countdown="minutes"]');
@@ -34,8 +37,23 @@ function startCountdown(): void {
     setText(seconds, s ?? '00');
   };
 
-  tick();
-  window.setInterval(tick, 1000);
+  let timer = 0;
+  const start = (): void => {
+    tick();
+    if (timer === 0) timer = window.setInterval(tick, 1000);
+  };
+  const stop = (): void => {
+    if (timer !== 0) {
+      window.clearInterval(timer);
+      timer = 0;
+    }
+  };
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else start();
+  });
+  start();
 }
 
 /* ------------------------------------------------------------------ *
@@ -228,24 +246,13 @@ function renderReviews(): void {
  * ------------------------------------------------------------------ */
 
 function setupContact(): void {
-  const message = `Hola ${config.brand.institute}, vengo de UltraGiro y quiero agendar el diagnóstico sin costo.`;
-  const link = whatsappLink(config.brand.whatsapp, message);
-
-  for (const selector of ['#wa-cta', '#footer-wa']) {
-    const anchor = qs<HTMLAnchorElement>(selector);
-    if (anchor) {
-      anchor.href = link;
-      anchor.rel = 'noopener';
-      anchor.target = '_blank';
-    }
-  }
-
   const mail = qs<HTMLAnchorElement>('#footer-mail');
   if (mail) {
     mail.href = `mailto:${config.brand.email}`;
     mail.textContent = config.brand.email;
   }
 
+  setText(qs('#footer-phone'), config.brand.phone);
   setText(qs('#footer-hours'), config.brand.hours);
   setText(qs('#year'), String(new Date().getFullYear()));
 }

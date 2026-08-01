@@ -253,7 +253,6 @@ function fillBrandForm(): void {
   setValue('#b-legal', config.brand.legalName);
   setValue('#b-site', config.brand.site);
   setValue('#b-city', config.brand.city);
-  setValue('#b-whatsapp', config.brand.whatsapp);
   setValue('#b-phone', config.brand.phone);
   setValue('#b-email', config.brand.email);
   setValue('#b-hours', config.brand.hours);
@@ -285,7 +284,6 @@ function setupBrandForm(): void {
         legalName: value('#b-legal'),
         site: value('#b-site'),
         city: value('#b-city'),
-        whatsapp: value('#b-whatsapp').replace(/\D/g, ''),
         phone: value('#b-phone'),
         email: value('#b-email'),
         hours: value('#b-hours'),

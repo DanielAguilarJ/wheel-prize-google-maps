@@ -60,10 +60,25 @@ describe('landing (index.html)', () => {
     expect(names).not.toContain('MatheKids');
   });
 
-  it('el enlace de WhatsApp queda armado', async () => {
+  it('el pie muestra el correo y el horario, y no hay ninguna salida a WhatsApp', async () => {
     loadPage('index.html');
     await import('./landing/main');
-    expect(document.querySelector<HTMLAnchorElement>('#wa-cta')?.href).toContain('wa.me/');
+
+    expect(document.querySelector<HTMLAnchorElement>('#footer-mail')?.href).toContain('mailto:');
+    expect(document.body.innerHTML).not.toMatch(/wa\.me|whatsapp/i);
+  });
+
+  it('todos los enlaces de acción llevan a la ruleta, al cartel o al panel', async () => {
+    loadPage('index.html');
+    await import('./landing/main');
+
+    const targets = Array.from(document.querySelectorAll<HTMLAnchorElement>('a.btn')).map((a) =>
+      a.getAttribute('href'),
+    );
+    expect(targets.length).toBeGreaterThan(3);
+    for (const href of targets) {
+      expect(href).toMatch(/^(\.\/(ruleta|cartel|admin|index)\.html|#)/);
+    }
   });
 });
 
@@ -118,6 +133,19 @@ describe('ruleta (ruleta.html)', () => {
     expect(document.querySelector<HTMLElement>('#feedback-block')?.hidden).toBe(true);
     // No existe una segunda ruta "alternativa": hay un único enlace público.
     expect(document.querySelector('#review-link-alt')).toBeNull();
+  });
+
+  it('la pantalla de premio no ofrece ninguna salida que no sea Google Maps', async () => {
+    loadPage('ruleta.html');
+    await import('./wheel/page');
+
+    const result = document.querySelector('#screen-result');
+    expect(result).not.toBeNull();
+    expect(result?.innerHTML).not.toMatch(/wa\.me|whatsapp/i);
+    // Único enlace externo de la pantalla: el de la reseña.
+    const externals = result?.querySelectorAll('a[target="_blank"]') ?? [];
+    expect(externals).toHaveLength(1);
+    expect(externals[0]?.id).toBe('review-link');
   });
 
   it('el enlace de reseña usa el enlace corto que abre la app de Maps', async () => {

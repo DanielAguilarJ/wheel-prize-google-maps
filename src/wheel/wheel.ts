@@ -60,19 +60,31 @@ export class Wheel {
     window.addEventListener('resize', this.handleResize, { passive: true });
   }
 
+  private resizeFrame = 0;
+
+  /** Redimensionar reasigna el búfer del canvas: se agrupa en un solo frame. */
   private readonly handleResize = (): void => {
-    this.resize();
+    if (this.resizeFrame !== 0) return;
+    this.resizeFrame = requestAnimationFrame(() => {
+      this.resizeFrame = 0;
+      this.resize();
+    });
   };
 
   /** Ajusta el canvas al tamaño CSS y a la densidad de pantalla. */
   resize(): void {
     const rect = this.canvas.getBoundingClientRect();
     const cssSize = Math.max(220, Math.min(rect.width || 320, 620));
-    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    // Se limita a 2x: por encima no se distingue y multiplica los píxeles a pintar.
+    const dpr = Wheel.pixelRatio();
     this.canvas.width = Math.round(cssSize * dpr);
     this.canvas.height = Math.round(cssSize * dpr);
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.draw();
+  }
+
+  private static pixelRatio(): number {
+    return Math.min(window.devicePixelRatio || 1, 2);
   }
 
   setPrizes(prizes: readonly Prize[]): void {
@@ -127,27 +139,74 @@ export class Wheel {
     });
   }
 
-  /** Giro lento y continuo para la demo de la landing. */
+  /**
+   * Giro lento y continuo para la demo de la landing.
+   * Se detiene cuando la ruleta sale de la pantalla o la pestaña pasa a segundo
+   * plano, y no arranca si el sistema pide reducir el movimiento: un canvas
+   * repintándose 60 veces por segundo sin que nadie lo vea sólo gasta batería.
+   */
   idle(speed = 0.0022): () => void {
-    let running = true;
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+    if (reduceMotion) return () => {};
+
+    let stopped = false;
+    let visible = true;
+    let onScreen = true;
+    let frame = 0;
     let last = performance.now();
+
     const step = (now: number): void => {
-      if (!running) return;
+      if (stopped) return;
       if (!this.spinning) {
         this.rotation += (now - last) * speed;
         this.draw();
       }
       last = now;
-      requestAnimationFrame(step);
+      frame = requestAnimationFrame(step);
     };
-    requestAnimationFrame(step);
+
+    const sync = (): void => {
+      const shouldRun = visible && onScreen && !stopped;
+      if (shouldRun && frame === 0) {
+        last = performance.now();
+        frame = requestAnimationFrame(step);
+      } else if (!shouldRun && frame !== 0) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    };
+
+    const onVisibility = (): void => {
+      visible = !document.hidden;
+      sync();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    const observer =
+      typeof IntersectionObserver === 'function'
+        ? new IntersectionObserver(
+            (entries) => {
+              onScreen = entries.some((entry) => entry.isIntersecting);
+              sync();
+            },
+            { threshold: 0.05 },
+          )
+        : null;
+    observer?.observe(this.canvas);
+
+    sync();
+
     return () => {
-      running = false;
+      stopped = true;
+      if (frame !== 0) cancelAnimationFrame(frame);
+      document.removeEventListener('visibilitychange', onVisibility);
+      observer?.disconnect();
     };
   }
 
   destroy(): void {
     cancelAnimationFrame(this.animationId);
+    if (this.resizeFrame !== 0) cancelAnimationFrame(this.resizeFrame);
     window.removeEventListener('resize', this.handleResize);
   }
 
@@ -170,7 +229,7 @@ export class Wheel {
 
   draw(): void {
     const { ctx } = this;
-    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    const dpr = Wheel.pixelRatio();
     const size = this.canvas.width / dpr;
     const center = size / 2;
     const radius = center * 0.92;

@@ -104,21 +104,6 @@ export function buildPlayRecord(params: {
   };
 }
 
-/** Enlace de WhatsApp con mensaje prellenado, ya codificado. */
-export function whatsappLink(phone: string, message: string): string {
-  const digits = phone.replace(/\D/g, '');
-  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
-}
-
-/** Mensaje que el ganador envía por WhatsApp para canjear su premio. */
-export function redeemMessage(play: PlayRecord, institute: string): string {
-  return (
-    `¡Hola ${institute}! Gané "${play.prizeLabel}" en la ruleta UltraGiro. ` +
-    `Mi código es ${play.code}. Me interesa el programa ${play.programId || 'por definir'}. ` +
-    `Mi nombre es ${play.name || 'sin nombre'}.`
-  );
-}
-
 /**
  * Enlace de reseña de Google. Sólo se aceptan URLs https de dominios de Google
  * para no redirigir a un sitio arbitrario si la configuración se corrompe.
