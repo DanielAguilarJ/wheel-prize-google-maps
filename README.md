@@ -181,7 +181,8 @@ prohíbe.
   reseña o no.
 - El botón de reseña se ofrece **a todo el mundo**, sin depender de la calificación que haya dado
   en la encuesta interna.
-- Se sugiere *de qué* hablar (el programa, el avance observado), nunca la calificación ni el texto.
+- El cuadro de reseña de Google llega **siempre en blanco**: nada en el sitio precarga ni sugiere
+  su contenido.
 - Si alguien tuvo mala experiencia, se le ofrece **además** un canal privado para poder corregir —
   sin quitarle en ningún momento el enlace público.
 

@@ -63,7 +63,6 @@ function toast(message: string): void {
 function applyBrand(): void {
   for (const node of qsa('[data-institute]')) setText(node, config.brand.institute);
   for (const node of qsa('[data-legal-name]')) setText(node, config.brand.legalName);
-  setText(qs('#review-hint-text'), ` ${config.brand.reviewHint}`);
   document.title = `Gira y gana · ${config.brand.institute}`;
 }
 

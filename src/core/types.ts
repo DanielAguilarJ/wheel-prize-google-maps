@@ -49,8 +49,6 @@ export interface BrandConfig {
   readonly googleReviewUrl: string;
   /** URL pública donde se publica la ruleta (para el QR del cartel). */
   readonly wheelPublicUrl: string;
-  /** Texto sugerido que el usuario puede copiar para su reseña. */
-  readonly reviewHint: string;
 }
 
 export interface RulesConfig {

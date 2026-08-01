@@ -123,6 +123,19 @@ describe('ruleta (ruleta.html)', () => {
     expect(document.querySelector('#player-name')?.textContent).toBe('Ana');
   });
 
+  it('el bloque de reseña no precarga ni sugiere ningún texto de opinión', async () => {
+    loadPage('ruleta.html');
+    await import('./wheel/page');
+
+    const block = document.querySelector('#review-block');
+    expect(block).not.toBeNull();
+    // Sólo debe quedar el título, el botón y la nota de "cuadro en blanco":
+    // ningún textarea ni input prellenado, y sin rastro de la idea sugerida
+    // que existía antes (Google prohíbe precargar/sugerir el texto de reseñas).
+    expect(block?.querySelectorAll('textarea, input[type="text"]')).toHaveLength(0);
+    expect(block?.textContent).not.toMatch(/idea para tu reseña/i);
+  });
+
   it('el bloque de reseña es visible para todos y no depende de la calificación', async () => {
     loadPage('ruleta.html');
     await import('./wheel/page');

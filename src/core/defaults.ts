@@ -226,8 +226,6 @@ export const DEFAULT_CONFIG: AppConfig = Object.freeze({
     // es decir, al cuadro para escribir, no a la lista de reseñas de otros.
     googleReviewUrl: 'https://g.page/r/CV0943nm5-PmEBM/review',
     wheelPublicUrl: 'https://ultravelozmente.com/ruleta',
-    reviewHint:
-      'Cuéntanos qué programa tomas y qué cambió en tu aprendizaje (lectura, cálculo, memoria, inglés...).',
   }),
   rules: Object.freeze({
     cooldownHours: 24,

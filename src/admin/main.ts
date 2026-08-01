@@ -257,7 +257,6 @@ function fillBrandForm(): void {
   setValue('#b-email', config.brand.email);
   setValue('#b-hours', config.brand.hours);
   setValue('#b-review-url', config.brand.googleReviewUrl);
-  setValue('#b-review-hint', config.brand.reviewHint);
   setValue('#b-wheel-url', config.brand.wheelPublicUrl);
 }
 
@@ -288,7 +287,6 @@ function setupBrandForm(): void {
         email: value('#b-email'),
         hours: value('#b-hours'),
         googleReviewUrl: safe ?? config.brand.googleReviewUrl,
-        reviewHint: value('#b-review-hint'),
         wheelPublicUrl: value('#b-wheel-url'),
       },
     });
