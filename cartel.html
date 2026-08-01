@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cartel con QR · UltraGiro</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <main class="builder">
+      <div class="wrap">
+        <header class="no-print" style="margin-bottom: 22px">
+          <span class="eyebrow">Material imprimible</span>
+          <h1 style="font-size: clamp(1.6rem, 4vw, 2.4rem)">Tu cartel con QR, listo para la pared.</h1>
+          <p class="lead" style="max-width: 70ch">
+            Personaliza el mensaje, elige el estilo y manda a imprimir. El QR apunta a la URL pública
+            de tu ruleta, con la etiqueta de origen que definas para saber qué cartel funciona mejor.
+          </p>
+          <div class="btn-row">
+            <a class="btn btn--ghost" href="./index.html">← Volver a la landing</a>
+            <a class="btn btn--ghost" href="./admin.html">Panel interno</a>
+          </div>
+        </header>
+
+        <div class="builder__grid">
+          <!-- ============ Controles ============ -->
+          <form class="builder__form no-print" id="poster-form">
+            <h2 style="font-size: 1.1rem">Contenido</h2>
+
+            <label class="field">
+              <span>Título grande</span>
+              <input type="text" id="f-title" maxlength="46" value="Gira y gana" />
+            </label>
+
+            <label class="field">
+              <span>Subtítulo</span>
+              <input
+                type="text"
+                id="f-subtitle"
+                maxlength="90"
+                value="Escanea, gira la ruleta y llévate un premio de nuestro catálogo."
+              />
+            </label>
+
+            <label class="field">
+              <span>Icono</span>
+              <input type="text" id="f-icon" maxlength="4" value="🎡" />
+            </label>
+
+            <label class="field">
+              <span>Texto sobre el QR</span>
+              <input type="text" id="f-qr-label" maxlength="34" value="Escanea con tu celular" />
+            </label>
+
+            <label class="field">
+              <span>URL de la ruleta</span>
+              <input type="url" id="f-url" />
+            </label>
+
+            <label class="field">
+              <span>Etiqueta de origen (opcional)</span>
+              <input type="text" id="f-source" maxlength="24" placeholder="recepcion, feria, aula-3" />
+              <span class="note">Se añade como <code>?origen=</code> y aparece en tu CSV.</span>
+            </label>
+
+            <label class="field">
+              <span>Programa sugerido (opcional)</span>
+              <select id="f-program">
+                <option value="">Sin preselección</option>
+              </select>
+            </label>
+
+            <fieldset style="border: 0; padding: 0; margin: 0 0 16px">
+              <legend class="field-label">Estilo</legend>
+              <div class="theme-row">
+                <button class="theme-chip theme-violeta" type="button" data-theme="violeta" aria-pressed="true" aria-label="Estilo violeta">🧠</button>
+                <button class="theme-chip theme-cian" type="button" data-theme="cian" aria-pressed="false" aria-label="Estilo cian">🧮</button>
+                <button class="theme-chip theme-magenta" type="button" data-theme="magenta" aria-pressed="false" aria-label="Estilo magenta">📚</button>
+                <button class="theme-chip theme-ambar" type="button" data-theme="ambar" aria-pressed="false" aria-label="Estilo ámbar">🎪</button>
+              </div>
+            </fieldset>
+
+            <label class="field field--check">
+              <input type="checkbox" id="f-show-prizes" checked />
+              <span>Mostrar los premios en el cartel</span>
+            </label>
+
+            <div class="btn-row">
+              <button class="btn" type="button" id="print-poster">🖨️ Imprimir</button>
+              <button class="btn btn--ghost" type="button" id="download-qr">⬇️ Descargar QR (PNG)</button>
+            </div>
+            <p class="note" id="qr-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <!-- ============ Cartel ============ -->
+          <div class="poster-stage">
+            <article class="poster" id="poster">
+              <div class="poster__brand" id="p-brand">WORLDBRAIN MÉXICO</div>
+              <div class="poster__icon" id="p-icon" aria-hidden="true">🎡</div>
+              <div>
+                <h2 class="poster__title" id="p-title">Gira y gana</h2>
+                <p class="poster__subtitle" id="p-subtitle"></p>
+                <div class="poster__prizes" id="p-prizes"></div>
+              </div>
+              <div class="poster__qr-wrap">
+                <canvas id="p-qr" width="320" height="320" role="img" aria-label="Código QR de la ruleta"></canvas>
+                <span class="poster__qr-label" id="p-qr-label">Escanea con tu celular</span>
+              </div>
+              <div>
+                <div class="poster__steps">
+                  <span class="poster__step">1 · Escanea</span>
+                  <span class="poster__step">2 · Gira</span>
+                  <span class="poster__step">3 · Gana</span>
+                </div>
+                <p class="poster__foot" id="p-foot"></p>
+              </div>
+            </article>
+            <p class="note no-print">
+              Tamaño carta vertical. Para media carta, imprime dos por hoja desde el diálogo de
+              impresión.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/cartel/main.ts"></script>
+  </body>
+</html>

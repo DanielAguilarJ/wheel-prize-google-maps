@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gira y gana · WorldBrain México</title>
+    <meta name="description" content="Gira la ruleta de WorldBrain México y gana un premio de nuestro catálogo." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#2E1065" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A1%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <main class="play">
+      <div class="play__head">
+        <span class="brand">
+          <span class="brand__mark" aria-hidden="true">🧠</span>
+          <span>
+            <span data-institute>WorldBrain México</span>
+            <span class="brand__sub">UltraGiro · gira y gana</span>
+          </span>
+        </span>
+      </div>
+
+      <div class="play__steps" aria-hidden="true">
+        <span class="play__dot is-active" data-dot="1"></span>
+        <span class="play__dot" data-dot="2"></span>
+        <span class="play__dot" data-dot="3"></span>
+      </div>
+
+      <!-- ============ Paso 1: datos ============ -->
+      <section class="play__card screen" id="screen-lead" aria-labelledby="lead-title">
+        <h1 id="lead-title">🎡 Tu premio está a un giro.</h1>
+        <p class="lead">
+          Déjanos tus datos para poder entregarte el premio y girar. Todos los premios son reales y
+          los ganas por girar, sin importar lo que opines después.
+        </p>
+
+        <form id="lead-form" novalidate>
+          <label class="field">
+            <span>Tu nombre *</span>
+            <input type="text" id="lead-name" name="name" autocomplete="name" maxlength="80" required />
+            <span class="error-text" data-error="name"></span>
+          </label>
+
+          <label class="field">
+            <span>WhatsApp o correo *</span>
+            <input
+              type="text"
+              id="lead-contact"
+              name="contact"
+              autocomplete="tel"
+              inputmode="text"
+              maxlength="80"
+              placeholder="55 1234 5678 o tu@correo.com"
+              required
+            />
+            <span class="error-text" data-error="contact"></span>
+          </label>
+
+          <label class="field">
+            <span>¿Qué programa te interesa? *</span>
+            <select id="lead-program" name="programId" required>
+              <option value="">Elige una opción…</option>
+            </select>
+            <span class="error-text" data-error="programId"></span>
+          </label>
+
+          <label class="field field--check">
+            <input type="checkbox" id="lead-consent" name="consent" />
+            <span>
+              Acepto que <strong data-legal-name>CWBMX, S.C.</strong> guarde mis datos para
+              entregarme el premio y contactarme sobre sus programas, conforme a su aviso de
+              privacidad (LFPDPPP). Puedo pedir su eliminación cuando quiera.
+            </span>
+          </label>
+          <span class="error-text" data-error="consent"></span>
+
+          <button class="btn btn--gold btn--lg btn--block" type="submit">Continuar al giro →</button>
+        </form>
+
+        <p class="legal-note">
+          El premio se entrega por participar en la ruleta. Dejar una reseña es opcional y no
+          cambia tu premio.
+        </p>
+      </section>
+
+      <!-- ============ Paso 2: ruleta ============ -->
+      <section class="screen" id="screen-wheel" hidden aria-labelledby="wheel-title">
+        <div class="play__wheel">
+          <h2 id="wheel-title" style="color: #fff; text-align: center">
+            ¡Suerte, <span id="player-name">visitante</span>!
+          </h2>
+          <div class="wheel-frame">
+            <canvas
+              id="play-wheel"
+              width="400"
+              height="400"
+              role="img"
+              aria-label="Ruleta de premios de WorldBrain México"
+            ></canvas>
+          </div>
+          <button class="btn btn--gold btn--lg spin-btn" type="button" id="spin-button">
+            🎯 ¡Girar!
+          </button>
+          <p class="spin-hint" id="spin-status" role="status" aria-live="polite">
+            Un solo giro por persona. Todos los premios son reales.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ Paso 3: resultado ============ -->
+      <section class="play__card screen" id="screen-result" hidden aria-labelledby="result-title">
+        <div class="prize-hero">
+          <div class="prize-hero__icon" id="prize-icon" aria-hidden="true">🎁</div>
+          <h1 id="result-title" style="font-size: 1.1rem; color: var(--muted); font-weight: 700">
+            ¡Felicidades! Ganaste
+          </h1>
+          <p class="prize-hero__label" id="prize-label">Premio</p>
+          <p class="prize-hero__detail" id="prize-detail"></p>
+        </div>
+
+        <div class="code-box">
+          <div class="code-box__label">Tu código de canje</div>
+          <div class="code-box__value" id="prize-code">WB-0000-0000</div>
+          <div class="code-box__expiry" id="prize-expiry"></div>
+          <button class="copy-btn" type="button" id="copy-code">Copiar código</button>
+        </div>
+
+        <a class="btn btn--wa btn--block" id="claim-wa" href="#" target="_blank" rel="noopener">
+          💬 Reclamar mi premio por WhatsApp
+        </a>
+
+        <hr style="border: 0; border-top: 1px solid var(--line); margin: 24px 0" />
+
+        <div id="rating-block">
+          <h3 style="text-align: center">¿Cómo ha sido tu experiencia con nosotros?</h3>
+          <div class="rating" id="rating" role="group" aria-label="Califica tu experiencia">
+            <button class="rating__star" type="button" data-value="1" aria-label="1 estrella">⭐</button>
+            <button class="rating__star" type="button" data-value="2" aria-label="2 estrellas">⭐</button>
+            <button class="rating__star" type="button" data-value="3" aria-label="3 estrellas">⭐</button>
+            <button class="rating__star" type="button" data-value="4" aria-label="4 estrellas">⭐</button>
+            <button class="rating__star" type="button" data-value="5" aria-label="5 estrellas">⭐</button>
+          </div>
+          <p class="note text-center">Tu respuesta es anónima para el premio: ya lo ganaste.</p>
+        </div>
+
+        <!-- Camino A: experiencia positiva -->
+        <div id="review-block" hidden>
+          <div class="review-hint">
+            <strong>Idea para tu reseña:</strong>
+            <span id="review-hint-text"></span>
+          </div>
+          <a class="btn btn--block mt-24" id="review-link" href="#" target="_blank" rel="noopener">
+            ⭐ Escribir mi reseña en Google
+          </a>
+          <p class="legal-note">
+            Escribe con tus propias palabras. No te pedimos ninguna calificación en particular y tu
+            premio ya es tuyo.
+          </p>
+        </div>
+
+        <!-- Camino B: experiencia mejorable -->
+        <div id="feedback-block" hidden>
+          <h3>Gracias por la honestidad. ¿Qué podemos mejorar?</h3>
+          <p class="note">
+            Esto llega directo a la dirección académica y nos ayuda a corregir. Si prefieres
+            hacerlo público, el enlace de Google también está abajo.
+          </p>
+          <label class="field">
+            <span class="visually-hidden">Tu comentario</span>
+            <textarea id="feedback-text" rows="4" maxlength="600" placeholder="Cuéntanos qué pasó…"></textarea>
+          </label>
+          <button class="btn btn--block" type="button" id="feedback-send">Enviar comentario privado</button>
+          <a class="btn btn--ghost btn--block mt-24" id="review-link-alt" href="#" target="_blank" rel="noopener">
+            También quiero dejar mi reseña pública en Google
+          </a>
+        </div>
+      </section>
+
+      <!-- ============ Bloqueo por espera ============ -->
+      <section class="play__card screen cooldown" id="screen-cooldown" hidden aria-labelledby="cooldown-title">
+        <div style="font-size: 3rem" aria-hidden="true">⏳</div>
+        <h1 id="cooldown-title">Ya giraste hace poco</h1>
+        <p class="lead">
+          Para que todos tengan oportunidad, cada persona puede girar una vez por periodo. Vuelve en:
+        </p>
+        <p class="cooldown__time" id="cooldown-time">00:00:00</p>
+        <p class="note">
+          ¿Tienes un premio pendiente de canjear? Escríbenos por WhatsApp con tu código.
+        </p>
+        <a class="btn btn--wa btn--block" id="cooldown-wa" href="#" target="_blank" rel="noopener">
+          💬 Escribir por WhatsApp
+        </a>
+      </section>
+
+      <p class="play__foot">
+        <span data-institute>WorldBrain México</span> ·
+        <span data-legal-name>CWBMX, S.C.</span> ·
+        <a href="https://ultravelozmente.com" rel="noopener">ultravelozmente.com</a><br />
+        Premio por participar. Reseñar es opcional y no condiciona el premio.
+      </p>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/wheel/page.ts"></script>
+  </body>
+</html>

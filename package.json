@@ -1,0 +1,28 @@
+{
+  "name": "ultragiro-worldbrain",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "UltraGiro — ruleta de reseñas 5★ y captación de leads para WorldBrain México (ultravelozmente.com). Uso interno.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.5",
+    "@vitest/coverage-v8": "2.1.9",
+    "jsdom": "25.0.1",
+    "typescript": "5.6.3",
+    "vite": "5.4.20",
+    "vitest": "2.1.9"
+  },
+  "dependencies": {
+    "qrcode": "1.5.4"
+  }
+}

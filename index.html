@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UltraGiro · Ruleta de reseñas 5★ para WorldBrain México</title>
+    <meta
+      name="description"
+      content="UltraGiro convierte cada visita a WorldBrain México en una reseña 5★ en Google y en un lead con nombre, contacto y programa de interés. Uso interno de CWBMX, S.C."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#2E1065" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A1%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <!-- ================= Barra de promoción ================= -->
+    <div class="topbar">
+      <div class="topbar__inner">
+        <span>🔥 <strong>Promo de temporada: −30% en inscripción</strong></span>
+        <span class="topbar__clock" aria-live="off" aria-label="Tiempo restante de la promoción">
+          <span class="topbar__unit" data-countdown="hours">00</span>:
+          <span class="topbar__unit" data-countdown="minutes">00</span>:
+          <span class="topbar__unit" data-countdown="seconds">00</span>
+        </span>
+        <span>Código: <span class="topbar__code" data-promo-code>ULTRA30</span></span>
+      </div>
+    </div>
+
+    <!-- ================= Navegación ================= -->
+    <header class="nav">
+      <div class="nav__inner">
+        <a class="brand" href="./index.html">
+          <span class="brand__mark" aria-hidden="true">🎡</span>
+          <span>
+            UltraGiro
+            <span class="brand__sub">WorldBrain México</span>
+          </span>
+        </a>
+        <nav class="nav__links" aria-label="Secciones">
+          <a href="#ruleta">La ruleta</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#programas">Programas</a>
+          <a href="#impacto">Impacto</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a class="btn btn--gold nav__cta" href="./ruleta.html">Girar la ruleta →</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ================= Hero ================= -->
+      <section class="hero" id="ruleta">
+        <div class="wrap hero__inner">
+          <div>
+            <span class="hero__badge">🧠 Neuroaprendizaje desde 2000 · +200,000 graduados*</span>
+            <h1>
+              Cada alumno que entra puede dejarte una <em>reseña 5★</em> antes de salir.
+            </h1>
+            <p class="hero__sub">
+              UltraGiro es la ruleta de premios de WorldBrain México. El visitante escanea el QR,
+              gira, gana algo real —diagnóstico gratis, beca, clase extra— y de paso publica su
+              reseña en Google. Tú te quedas con su nombre, su contacto y el programa que le
+              interesa.
+            </p>
+            <div class="btn-row mt-24">
+              <a class="btn btn--gold btn--lg" href="./ruleta.html">🎡 Probar la ruleta real</a>
+              <a class="btn btn--ghost btn--lg" href="./cartel.html">📄 Imprimir mi cartel QR</a>
+            </div>
+            <div class="hero__proof">
+              <span class="stars" aria-hidden="true">★★★★★</span>
+              <span>Sube tu ficha de Google Maps con reseñas auténticas</span>
+              <span>·</span>
+              <span>Listo para usar en recepción, aula y ferias escolares</span>
+            </div>
+          </div>
+
+          <div class="hero__wheel">
+            <div class="wheel-frame">
+              <canvas
+                id="demo-wheel"
+                width="440"
+                height="440"
+                role="img"
+                aria-label="Ruleta de premios de WorldBrain México"
+              ></canvas>
+            </div>
+            <button class="btn btn--gold btn--lg" type="button" id="demo-spin">
+              🎯 Gira gratis (demo)
+            </button>
+            <p class="hero__result" id="demo-result" role="status" aria-live="polite"></p>
+            <p class="wheel-caption">
+              Esta es la misma ruleta que verán tus alumnos y sus familias. Los premios y sus
+              probabilidades se editan en el <a href="./admin.html">panel interno</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Marquesina ================= -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track" id="marquee-track"></div>
+      </div>
+
+      <!-- ================= Menciones ================= -->
+      <section class="logos">
+        <div class="wrap">
+          <p class="logos__title">Han hablado del método WorldBrain*</p>
+          <div class="logos__row">
+            <span>Forbes</span>
+            <span>Entrepreneur</span>
+            <span>TEDx</span>
+            <span>El Universal</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Métricas ================= -->
+      <section class="section section--tight">
+        <div class="wrap">
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric__value">+25</div>
+              <p class="metric__label">años aplicando el método*</p>
+            </div>
+            <div class="metric">
+              <div class="metric__value">+200,000</div>
+              <p class="metric__label">graduados*</p>
+            </div>
+            <div class="metric">
+              <div class="metric__value">17</div>
+              <p class="metric__label">programas activos</p>
+            </div>
+            <div class="metric">
+              <div class="metric__value">3 min</div>
+              <p class="metric__label">para tener tu ruleta en recepción</p>
+            </div>
+          </div>
+          <p class="note mt-24">
+            * Cifras de comunicación de WorldBrain México. Antes de usarlas en campañas pagadas,
+            respáldalas con el registro interno de alumnos, generaciones y evidencias. Edítalas en
+            <code>src/core/defaults.ts</code> o desde el panel.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= Beneficios ================= -->
+      <section class="section section--alt">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="eyebrow">Por qué funciona</span>
+            <h2>Pedir reseñas incomoda. Jugar, no.</h2>
+            <p class="lead">
+              El papá que espera a su hijo en recepción tiene el celular en la mano. Dale algo que
+              hacer con él: una ruleta que siempre entrega premio y que lo lleva, sin presión, a tu
+              ficha de Google.
+            </p>
+          </div>
+          <div class="grid grid--4">
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">📍</div>
+              <h3>Más visible en tu zona</h3>
+              <p>
+                Volumen y frescura de reseñas son señales locales. Suben tu ficha cuando alguien
+                busca "cálculo mental para niños" en Cuautitlán Izcalli.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">⚡</div>
+              <h3>Un toque y está en Google</h3>
+              <p>
+                Después de girar, el visitante llega directo al formulario de reseña, con una idea
+                sugerida de qué contar sobre su programa.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">📇</div>
+              <h3>Cada giro es un lead</h3>
+              <p>
+                Nombre, WhatsApp o correo, y el programa que le interesa. Exportable a CSV para tu
+                seguimiento comercial.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">🎁</div>
+              <h3>Premios que venden</h3>
+              <p>
+                El premio más probable es el diagnóstico gratuito de 45 min: tu mejor herramienta
+                de cierre, entregada como regalo.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Programas ================= -->
+      <section class="section" id="programas">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="eyebrow">Catálogo conectado</span>
+            <h2>La ruleta pregunta qué programa le interesa.</h2>
+            <p class="lead">
+              El visitante elige su ruta antes de girar. Así sabes con qué intención llegó cada
+              lead y a qué asesor asignarlo.
+            </p>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="Audiencias">
+            <button class="tab" type="button" role="tab" aria-selected="true" data-audience="ninos">
+              Niños
+            </button>
+            <button
+              class="tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              data-audience="jovenes-adultos"
+            >
+              Jóvenes y adultos
+            </button>
+          </div>
+
+          <div class="programs" id="programs-grid" role="tabpanel"></div>
+        </div>
+      </section>
+
+      <!-- ================= Cómo funciona ================= -->
+      <section class="section section--alt" id="como-funciona">
+        <div class="wrap">
+          <div class="section-head section-head--center">
+            <span class="eyebrow">Cómo funciona</span>
+            <h2>Tres pasos para el instituto. Tres para el visitante.</h2>
+            <p class="lead">
+              Sin instalar nada, sin cuentas, sin mensualidades: es tu propia herramienta.
+            </p>
+          </div>
+
+          <div class="steps">
+            <div class="steps__col">
+              <h3>Lado WorldBrain <span class="steps__time">≈ 5 min</span></h3>
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <div class="step__title">Configura premios y probabilidades</div>
+                  <div class="step__desc">
+                    En el panel interno: diagnóstico gratis, beca, ábaco, taller, guía en PDF.
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <div class="step__title">Pega tu enlace de reseñas de Google</div>
+                  <div class="step__desc">
+                    El de tu ficha de Google Maps de Cuautitlán Izcalli.
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <div class="step__title">Imprime el cartel con QR</div>
+                  <div class="step__desc">
+                    Recepción, aulas, mostrador de informes, stands en ferias escolares.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="steps__arrow" aria-hidden="true">→</div>
+
+            <div class="steps__col">
+              <h3>Lado visitante <span class="steps__time">≈ 20 seg</span></h3>
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <div class="step__title">Escanea el QR</div>
+                  <div class="step__desc">Sin apps: abre en el navegador del celular.</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <div class="step__title">Deja sus datos y gira</div>
+                  <div class="step__desc">
+                    Nombre, contacto, programa de interés y consentimiento de privacidad.
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <div class="step__title">Gana y comparte su experiencia</div>
+                  <div class="step__desc">
+                    Recibe su código de premio y el enlace para dejar su reseña en Google.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Calculadora ================= -->
+      <section class="section section--dark" id="impacto">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="eyebrow">Calculadora transparente</span>
+            <h2>¿Cuánto puede aportarte UltraGiro al mes?</h2>
+            <p class="lead">
+              Mueve la barra según cuántas personas pasan por tu instituto o reciben tu QR cada
+              mes. El modelo es tuyo: puedes ajustar cada supuesto.
+            </p>
+          </div>
+
+          <div class="calc">
+            <div class="calc__panel">
+              <label class="field-label" for="visitors">Visitantes al mes (padres, alumnos, prospectos)</label>
+              <div class="calc__value" id="visitors-out">300</div>
+              <input
+                type="range"
+                id="visitors"
+                min="30"
+                max="2000"
+                step="10"
+                value="300"
+                aria-describedby="calc-assumptions"
+              />
+              <p class="note" id="calc-assumptions">
+                Supuestos editables: 55% gira · 35% de quienes giran publica reseña · 70% deja datos
+                · 35% agenda diagnóstico · 30% se inscribe · ticket $1,800 MXN/mes.
+              </p>
+            </div>
+
+            <div class="calc__out">
+              <div class="calc__cell">
+                <strong id="out-spins">0</strong>
+                <span>giros de ruleta</span>
+              </div>
+              <div class="calc__cell">
+                <strong id="out-reviews">0</strong>
+                <span>reseñas 5★ potenciales</span>
+              </div>
+              <div class="calc__cell">
+                <strong id="out-leads">0</strong>
+                <span>leads con contacto</span>
+              </div>
+              <div class="calc__cell">
+                <strong id="out-diagnostics">0</strong>
+                <span>diagnósticos agendados</span>
+              </div>
+              <div class="calc__cell">
+                <strong id="out-enrollments">0</strong>
+                <span>inscripciones</span>
+              </div>
+              <div class="calc__cell calc__cell--hero">
+                <strong id="out-revenue">$0</strong>
+                <span>ingreso mensual estimado</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="note mt-24">
+            Es una proyección, no una promesa: cambia los supuestos en
+            <code>src/core/stats.ts</code> cuando tengas tus propias tasas medidas en el panel.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= Comparativa ================= -->
+      <section class="section">
+        <div class="wrap">
+          <div class="section-head section-head--center">
+            <span class="eyebrow">Comparativa</span>
+            <h2>"¿Nos dejas una reseñita?" contra una ruleta que la gente busca.</h2>
+          </div>
+
+          <div class="versus">
+            <article class="vs-card vs-card--bad">
+              <p class="vs-card__tag">Lo de siempre</p>
+              <h3>🥶 Pedirla a mano o con una placa NFC</h3>
+              <ul class="vs-list">
+                <li>Depende de que el asesor se acuerde y se atreva a pedirla.</li>
+                <li>Incomoda al papá que va con prisa.</li>
+                <li>El visitante no gana nada por hacerlo.</li>
+                <li>No queda ningún dato de contacto para dar seguimiento.</li>
+              </ul>
+              <div class="vs-rate">
+                Reseñas por cada 100 visitantes
+                <strong>~2</strong>
+              </div>
+            </article>
+
+            <article class="vs-card vs-card--good">
+              <p class="vs-card__tag">Con UltraGiro</p>
+              <h3>🎡 Una ruleta visible que siempre premia</h3>
+              <ul class="vs-list">
+                <li>El QR trabaja solo: en recepción, aula, cartel y stand.</li>
+                <li>Es un juego, no un favor: nadie se siente presionado.</li>
+                <li>Todos ganan algo útil de tu propio catálogo.</li>
+                <li>Cada giro deja nombre, contacto y programa de interés.</li>
+              </ul>
+              <div class="vs-rate">
+                Reseñas por cada 100 visitantes (objetivo a medir)
+                <strong>15–30</strong>
+              </div>
+            </article>
+          </div>
+
+          <p class="note mt-24">
+            Las cifras de la derecha son la meta que vas a comprobar con tus propios datos en el
+            panel: el tablero muestra giros reales, tasa de apertura de Google y premios entregados.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= Cartel ================= -->
+      <section class="section section--alt">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="eyebrow">Material listo</span>
+            <h2>Un cartel que la gente sí voltea a ver.</h2>
+            <p class="lead">
+              Genera tu cartel con QR en cuatro estilos, en tamaño carta o media carta, y mándalo
+              directo a la impresora.
+            </p>
+          </div>
+
+          <div class="posters">
+            <div class="poster-mini">
+              <div class="poster-mini__icon" aria-hidden="true">🧠</div>
+              <div class="poster-mini__title">Recepción</div>
+              <p class="poster-mini__text">Mientras esperas… gira y gana</p>
+              <div class="poster-mini__qr" aria-hidden="true"></div>
+            </div>
+            <div class="poster-mini">
+              <div class="poster-mini__icon" aria-hidden="true">🧮</div>
+              <div class="poster-mini__title">Aula MatheKids</div>
+              <p class="poster-mini__text">Papás: un premio por su opinión</p>
+              <div class="poster-mini__qr" aria-hidden="true"></div>
+            </div>
+            <div class="poster-mini">
+              <div class="poster-mini__icon" aria-hidden="true">📚</div>
+              <div class="poster-mini__title">Fotolectura</div>
+              <p class="poster-mini__text">Gira, gana y cuéntanos tu avance</p>
+              <div class="poster-mini__qr" aria-hidden="true"></div>
+            </div>
+            <div class="poster-mini">
+              <div class="poster-mini__icon" aria-hidden="true">🎪</div>
+              <div class="poster-mini__title">Ferias escolares</div>
+              <p class="poster-mini__text">Ruleta de becas WorldBrain</p>
+              <div class="poster-mini__qr" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="btn-row mt-32">
+            <a class="btn" href="./cartel.html">Generar mi cartel con QR →</a>
+            <span class="pill">🖨️ Imprime en carta · funciona sin internet</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Módulos ================= -->
+      <section class="section section--dark">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="eyebrow">Siguientes pasos</span>
+            <h2>Módulos que puedes activar cuando los necesites.</h2>
+            <p class="lead">
+              El proyecto es tuyo y el código está abierto: esta es la ruta sugerida de mejoras.
+            </p>
+          </div>
+          <div class="grid grid--3">
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">🤖</div>
+              <h3>Respuestas asistidas por IA</h3>
+              <p>
+                Plantillas para responder cada reseña mencionando el programa y la sede. Revisas y
+                publicas tú.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">🛡️</div>
+              <h3>Feedback privado primero</h3>
+              <p>
+                Si alguien valora con 4★ o menos, primero te cuenta qué pasó en privado. El enlace a
+                Google sigue disponible: nunca se le bloquea.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">🏆</div>
+              <h3>Reto entre asesores</h3>
+              <p>
+                Un QR por asesor o por sede para medir quién genera más giros y reseñas al mes.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">🥷</div>
+              <h3>Modo discreto</h3>
+              <p>
+                Sin captura de datos: gira, muestra la pantalla en recepción y se lleva su premio.
+                Cero datos personales que resguardar.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">🌐</div>
+              <h3>Ruleta en tu sitio</h3>
+              <p>
+                Un botón flotante en ultravelozmente.com con la misma ruleta para visitas web.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card__icon" aria-hidden="true">✉️</div>
+              <h3>Avisos por WhatsApp</h3>
+              <p>
+                Mensaje automático al ganador con su código y la invitación a agendar su
+                diagnóstico.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FAQ ================= -->
+      <section class="section" id="faq">
+        <div class="wrap">
+          <div class="section-head section-head--center">
+            <span class="eyebrow">Preguntas frecuentes</span>
+            <h2>Lo que suele preguntarse antes de colgar el cartel.</h2>
+          </div>
+
+          <div class="faq">
+            <details class="faq__item" open>
+              <summary>¿Google permite regalar algo por una reseña?</summary>
+              <div class="faq__answer">
+                No: las políticas de contenido de Google prohíben ofrecer incentivos a cambio de
+                reseñas. UltraGiro está diseñado para no cruzar esa línea: el premio es por
+                <strong>girar la ruleta</strong>, se entrega igual si la persona reseña o no, y el
+                enlace a Google se ofrece después, como invitación opcional. Nunca condiciones la
+                entrega del premio a que publique, ni le dictes qué escribir o cuántas estrellas
+                poner.
+              </div>
+            </details>
+            <details class="faq__item">
+              <summary>¿Puedo filtrar las reseñas malas?</summary>
+              <div class="faq__answer">
+                Bloquear a quien quiere calificar bajo (review gating) va contra las políticas de
+                Google y es un riesgo para tu ficha. Lo que sí hace UltraGiro: preguntar cómo le
+                fue, y si la respuesta es baja, ofrecerle primero un canal privado para contarte el
+                problema. El enlace público sigue disponible para quien quiera usarlo.
+              </div>
+            </details>
+            <details class="faq__item">
+              <summary>¿Qué premios conviene poner?</summary>
+              <div class="faq__answer">
+                Los que ya son parte de tu oferta y te acercan a la venta: diagnóstico de 45 minutos
+                sin costo, clase muestra, exención de inscripción, una clase extra, el ábaco
+                Soroban, un taller de memoria o una guía de fotolectura en PDF. Cada premio y su
+                probabilidad se editan en el panel.
+              </div>
+            </details>
+            <details class="faq__item">
+              <summary>¿Y los datos de los visitantes?</summary>
+              <div class="faq__answer">
+                Los datos se guardan en el navegador del dispositivo donde corre la ruleta y se
+                exportan a CSV cuando tú quieras. Como responsable del tratamiento, CWBMX, S.C.
+                necesita publicar su aviso de privacidad conforme a la LFPDPPP y recabar el
+                consentimiento antes de usar los datos para contacto comercial. La casilla de
+                consentimiento ya viene incluida en el formulario.
+              </div>
+            </details>
+            <details class="faq__item">
+              <summary>¿Necesito internet o servidor?</summary>
+              <div class="faq__answer">
+                No hay servidor: es un sitio estático. Puedes abrirlo desde una tablet sin conexión
+                para girar y capturar datos; sólo hace falta internet cuando el visitante abre el
+                enlace de Google. Para el QR, publica la carpeta <code>dist/</code> en
+                ultravelozmente.com o en cualquier hosting estático.
+              </div>
+            </details>
+            <details class="faq__item">
+              <summary>¿Sirve para varias sedes o asesores?</summary>
+              <div class="faq__answer">
+                Sí: publica una copia por sede con su propio enlace de Google y su propio QR, o usa
+                el parámetro <code>?origen=</code> en la URL del cartel para etiquetar de dónde vino
+                cada giro. Los CSV se pueden unir después.
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Testimonios ================= -->
+      <section class="section section--alt">
+        <div class="wrap">
+          <div class="section-head section-head--center">
+            <span class="eyebrow">Voces de familias</span>
+            <h2>Lo que quieres que se lea en tu ficha de Google.</h2>
+            <p class="lead">
+              Ejemplos del tipo de reseña que suele llegar cuando el visitante cuenta un cambio
+              concreto.
+            </p>
+          </div>
+
+          <div class="reviews" id="reviews-grid"></div>
+
+          <p class="disclaimer">
+            ⚠️ <strong>Plantilla de contenido.</strong> Estos textos son ejemplos redactados para el
+            diseño, no reseñas reales. Antes de publicar la página, sustitúyelos por testimonios
+            auténticos con autorización por escrito del alumno o del tutor, o quita la sección. Lo
+            mismo aplica a las cifras marcadas con asterisco y a las menciones de medios.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= CTA final ================= -->
+      <section class="section section--dark">
+        <div class="wrap cta-final">
+          <h2>Tu próxima reseña 5★ está esperando en recepción.</h2>
+          <p class="lead">Imprime el cartel, deja una tablet a la vista y empieza hoy.</p>
+          <div class="btn-row" style="justify-content: center">
+            <a class="btn btn--gold btn--lg" href="./ruleta.html">🎡 Abrir la ruleta</a>
+            <a class="btn btn--ghost btn--lg" href="./admin.html">⚙️ Configurar premios</a>
+            <a class="btn btn--wa btn--lg" id="wa-cta" href="#">💬 Escribir por WhatsApp</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= Pie ================= -->
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__grid">
+          <div>
+            <a class="brand" href="./index.html" style="color: #fff">
+              <span class="brand__mark" aria-hidden="true">🎡</span>
+              <span>UltraGiro<span class="brand__sub">WorldBrain México</span></span>
+            </a>
+            <p style="margin-top: 12px">
+              Herramienta interna de <strong>CWBMX, S.C.</strong> para recolectar reseñas
+              auténticas y leads en Cuautitlán Izcalli, Estado de México.
+            </p>
+          </div>
+          <div>
+            <h4>Herramienta</h4>
+            <ul class="footer__list">
+              <li><a href="./ruleta.html">Ruleta del visitante</a></li>
+              <li><a href="./admin.html">Panel interno</a></li>
+              <li><a href="./cartel.html">Cartel con QR</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Contacto</h4>
+            <ul class="footer__list">
+              <li><a id="footer-wa" href="#">WhatsApp</a></li>
+              <li><a id="footer-mail" href="#">Correo</a></li>
+              <li><span id="footer-hours">Lunes a sábado, 9:00 a 20:00</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Legal</h4>
+            <ul class="footer__list">
+              <li><a href="https://ultravelozmente.com" rel="noopener">ultravelozmente.com</a></li>
+              <li><span>Aviso de privacidad (LFPDPPP)</span></li>
+              <li><span>Términos de los premios</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <span>© <span id="year">2026</span> CWBMX, S.C. · Uso interno</span>
+          <span>Hecho para entrenar cerebros 🧠</span>
+        </div>
+      </div>
+    </footer>
+
+    <div class="sticky-cta" id="sticky-cta">
+      <span class="sticky-cta__text">🎡 ¿Listo para tu primera reseña de hoy?</span>
+      <a class="btn btn--gold" href="./ruleta.html">Girar</a>
+    </div>
+
+    <script type="module" src="/src/landing/main.ts"></script>
+  </body>
+</html>

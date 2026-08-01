@@ -1,0 +1,229 @@
+/* ==========================================================================
+   UltraGiro — generador de cartel con QR (cartel.html)
+   ========================================================================== */
+
+.builder {
+  background: var(--surface-2);
+  min-height: 100vh;
+  padding: 24px 0 60px;
+}
+
+.builder__grid {
+  display: grid;
+  gap: 24px;
+  align-items: start;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .builder__grid {
+    grid-template-columns: 360px 1fr;
+  }
+}
+
+.builder__form {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 20px;
+}
+
+.theme-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.theme-chip {
+  border: 2px solid transparent;
+  border-radius: 12px;
+  height: 46px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2rem;
+  display: grid;
+  place-items: center;
+}
+
+.theme-chip[aria-pressed='true'] {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.12);
+}
+
+.theme-violeta { background: linear-gradient(160deg, #4C1D95, #6D28D9); }
+.theme-cian { background: linear-gradient(160deg, #0E7490, #155E75); }
+.theme-magenta { background: linear-gradient(160deg, #DB2777, #9D174D); }
+.theme-ambar { background: linear-gradient(160deg, #B45309, #7C2D12); }
+
+/* ---------- Lienzo del cartel ---------- */
+
+.poster-stage {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+}
+
+.poster {
+  --poster-from: #4C1D95;
+  --poster-to: #6D28D9;
+  width: 100%;
+  max-width: 620px;
+  aspect-ratio: 1 / 1.4142; /* proporción A4 / carta aproximada */
+  background: linear-gradient(165deg, var(--poster-from), var(--poster-to));
+  color: #fff;
+  border-radius: 20px;
+  padding: 5% 6%;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  gap: 2.2%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.poster::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.5;
+}
+
+.poster > * {
+  position: relative;
+}
+
+.poster__brand {
+  font-size: clamp(0.7rem, 1.8vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.92;
+}
+
+.poster__icon {
+  font-size: clamp(2.4rem, 8vw, 4.2rem);
+  line-height: 1;
+}
+
+.poster__title {
+  font-size: clamp(1.5rem, 6.2vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.poster__subtitle {
+  font-size: clamp(0.85rem, 2.6vw, 1.15rem);
+  opacity: 0.95;
+  margin: 0;
+}
+
+.poster__prizes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 8px;
+  align-content: center;
+}
+
+.poster__prize {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: clamp(0.62rem, 1.9vw, 0.86rem);
+  font-weight: 700;
+}
+
+.poster__qr-wrap {
+  background: #fff;
+  border-radius: 16px;
+  padding: 3%;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  margin-inline: auto;
+  width: min(52%, 240px);
+}
+
+.poster__qr-wrap canvas,
+.poster__qr-wrap img {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.poster__qr-label {
+  color: #0F172A;
+  font-size: clamp(0.58rem, 1.6vw, 0.76rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.poster__steps {
+  display: flex;
+  justify-content: center;
+  gap: 3%;
+  font-size: clamp(0.6rem, 1.8vw, 0.82rem);
+  font-weight: 700;
+}
+
+.poster__step {
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 10px;
+  padding: 6px 10px;
+  flex: 1;
+  max-width: 33%;
+}
+
+.poster__foot {
+  font-size: clamp(0.5rem, 1.5vw, 0.68rem);
+  opacity: 0.86;
+  line-height: 1.4;
+}
+
+/* ---------- Impresión ---------- */
+
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 8mm;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .builder {
+    padding: 0;
+    background: #fff;
+  }
+
+  .builder__grid {
+    display: block;
+  }
+
+  .poster {
+    max-width: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1.35;
+    border-radius: 0;
+    box-shadow: none;
+    page-break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -1,0 +1,240 @@
+/* ==========================================================================
+   UltraGiro — página del visitante (ruleta.html) y agradecimiento
+   ========================================================================== */
+
+.play {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(760px 420px at 50% -12%, rgba(139, 92, 246, 0.55), transparent 62%),
+    linear-gradient(170deg, #2E1065, #190A3D 58%, #0C0322);
+  color: #F5F3FF;
+  padding: 20px var(--gutter) 40px;
+}
+
+.play__head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.play__head .brand {
+  color: #fff;
+}
+
+.play__head .brand__sub {
+  color: #C4B9E8;
+}
+
+.play__card {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: clamp(20px, 4vw, 32px);
+  box-shadow: var(--shadow-lg);
+}
+
+.play__card h1 {
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  margin-bottom: 10px;
+}
+
+.play__card .lead {
+  font-size: 1rem;
+}
+
+.play__steps {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.play__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.play__dot.is-active {
+  background: var(--gold-300);
+  box-shadow: 0 0 0 4px rgba(252, 211, 77, 0.22);
+}
+
+.screen[hidden] {
+  display: none !important;
+}
+
+/* ---------- Ruleta ---------- */
+
+.play__wheel {
+  display: grid;
+  place-items: center;
+  gap: 16px;
+}
+
+.play__wheel .wheel-frame {
+  width: min(86vw, 400px);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 22px 42px rgba(0, 0, 0, 0.45));
+}
+
+.play__wheel canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.spin-btn {
+  font-size: 1.15rem;
+  padding: 18px 40px;
+}
+
+.spin-hint {
+  font-size: 0.88rem;
+  color: #CFC7EE;
+  text-align: center;
+}
+
+/* ---------- Resultado ---------- */
+
+.prize-hero {
+  text-align: center;
+  padding: 6px 0 4px;
+}
+
+.prize-hero__icon {
+  font-size: 3.2rem;
+  line-height: 1;
+  animation: pop 0.5s ease-out;
+}
+
+@keyframes pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.prize-hero__label {
+  font-size: clamp(1.3rem, 4.6vw, 1.8rem);
+  font-weight: 800;
+  color: var(--violet-800);
+  margin: 8px 0 6px;
+}
+
+.prize-hero__detail {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.code-box {
+  margin: 18px 0;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 2px dashed var(--violet-500);
+  background: var(--violet-100);
+  text-align: center;
+}
+
+.code-box__label {
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--violet-800);
+}
+
+.code-box__value {
+  font-size: clamp(1.5rem, 6vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--violet-900);
+  font-variant-numeric: tabular-nums;
+}
+
+.code-box__expiry {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.copy-btn {
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid var(--violet-500);
+  color: var(--violet-800);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------- Valoración con estrellas ---------- */
+
+.rating {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 0 6px;
+}
+
+.rating__star {
+  border: 0;
+  background: none;
+  font-size: 2.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 4px;
+  filter: grayscale(1) opacity(0.45);
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.rating__star:hover,
+.rating__star.is-on {
+  filter: none;
+  transform: scale(1.08);
+}
+
+.review-hint {
+  background: var(--surface-3);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+.legal-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+.cooldown {
+  text-align: center;
+}
+
+.cooldown__time {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--violet-800);
+  font-variant-numeric: tabular-nums;
+}
+
+.play__foot {
+  margin-top: auto;
+  padding-top: 24px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #B9AEE3;
+}
+
+.play__foot a {
+  color: #E9E2FF;
+}

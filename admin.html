@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel UltraGiro · WorldBrain México</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%99%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  </head>
+  <body class="admin">
+    <a class="skip-link" href="#panel">Saltar al contenido</a>
+
+    <header class="admin__head">
+      <div class="wrap">
+        <span class="brand">
+          <span class="brand__mark" aria-hidden="true">⚙️</span>
+          <span>Panel UltraGiro<span class="brand__sub" data-institute>WorldBrain México</span></span>
+        </span>
+        <div class="btn-row">
+          <a class="btn btn--ghost" style="color: #fff; border-color: rgba(255,255,255,.5)" href="./index.html">Landing</a>
+          <a class="btn btn--gold" href="./ruleta.html">Abrir ruleta</a>
+        </div>
+      </div>
+    </header>
+
+    <nav class="admin__nav" role="tablist" aria-label="Secciones del panel">
+      <button class="admin__tab" role="tab" type="button" aria-selected="true" data-panel="prizes">
+        🎁 Premios
+      </button>
+      <button class="admin__tab" role="tab" type="button" aria-selected="false" data-panel="brand">
+        🏷️ Marca y enlaces
+      </button>
+      <button class="admin__tab" role="tab" type="button" aria-selected="false" data-panel="rules">
+        🧩 Reglas del juego
+      </button>
+      <button class="admin__tab" role="tab" type="button" aria-selected="false" data-panel="stats">
+        📊 Estadísticas
+      </button>
+      <button class="admin__tab" role="tab" type="button" aria-selected="false" data-panel="plays">
+        📇 Jugadas y CSV
+      </button>
+    </nav>
+
+    <main id="panel">
+      <!-- ================= Premios ================= -->
+      <section class="panel" id="panel-prizes" role="tabpanel">
+        <div class="wrap">
+          <div class="admin-card">
+            <h2>Premios y probabilidades</h2>
+            <p class="note">
+              El peso es relativo: si un premio tiene peso 20 y el total es 100, sale 20% de las
+              veces. La columna de probabilidad se recalcula sola. Recomendación: deja el
+              diagnóstico gratuito como el más probable, porque es tu mejor herramienta de venta.
+            </p>
+
+            <div class="issues" id="prize-issues" hidden></div>
+
+            <div class="table-scroll">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th>Activo</th>
+                    <th>Icono</th>
+                    <th>Nombre visible</th>
+                    <th>Categoría</th>
+                    <th class="col-narrow">Peso</th>
+                    <th class="col-narrow">Probabilidad</th>
+                    <th>Condiciones que ve el ganador</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="prize-rows"></tbody>
+              </table>
+            </div>
+
+            <div class="btn-row mt-24">
+              <button class="btn" type="button" id="save-prizes">Guardar premios</button>
+              <button class="btn btn--ghost" type="button" id="add-prize">+ Añadir premio</button>
+              <button class="btn btn--ghost" type="button" id="reset-prizes">Restaurar sugeridos</button>
+              <span class="saved-flag" id="prizes-saved" role="status" aria-live="polite"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Marca ================= -->
+      <section class="panel" id="panel-brand" role="tabpanel" hidden>
+        <div class="wrap">
+          <div class="admin-card">
+            <h2>Datos del instituto</h2>
+            <p class="note">Se usan en la landing, en la ruleta y en el cartel.</p>
+            <div class="form-grid">
+              <label class="field"><span>Nombre comercial</span><input type="text" id="b-institute" /></label>
+              <label class="field"><span>Razón social</span><input type="text" id="b-legal" /></label>
+              <label class="field"><span>Sitio web</span><input type="text" id="b-site" /></label>
+              <label class="field"><span>Ciudad / sede</span><input type="text" id="b-city" /></label>
+              <label class="field">
+                <span>WhatsApp (sólo dígitos, con 52)</span>
+                <input type="text" id="b-whatsapp" inputmode="numeric" placeholder="525512345678" />
+              </label>
+              <label class="field"><span>Teléfono visible</span><input type="text" id="b-phone" /></label>
+              <label class="field"><span>Correo</span><input type="email" id="b-email" /></label>
+              <label class="field"><span>Horario de atención</span><input type="text" id="b-hours" /></label>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h2>Enlace de reseñas de Google</h2>
+            <p class="note">
+              Ábrelo en tu ficha de Google Maps: <em>Pedir reseñas → copiar enlace</em>. Debe ser un
+              dominio de Google (g.page, maps.app.goo.gl o search.google.com); cualquier otro se
+              rechaza por seguridad.
+            </p>
+            <label class="field">
+              <span>URL de reseña</span>
+              <input type="url" id="b-review-url" placeholder="https://g.page/r/XXXX/review" />
+              <span class="error-text" id="review-url-error"></span>
+            </label>
+            <label class="field">
+              <span>Idea que se sugiere al visitante</span>
+              <textarea id="b-review-hint" rows="2"></textarea>
+            </label>
+            <p class="note">
+              No pidas 5 estrellas ni dictes el texto: sugerir <em>de qué</em> hablar es válido,
+              condicionar la calificación no lo es.
+            </p>
+          </div>
+
+          <div class="admin-card">
+            <h2>URL pública de la ruleta</h2>
+            <p class="note">Es la dirección que se codifica en el QR del cartel.</p>
+            <label class="field">
+              <span>URL de la ruleta</span>
+              <input type="url" id="b-wheel-url" placeholder="https://ultravelozmente.com/ruleta" />
+            </label>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn" type="button" id="save-brand">Guardar datos</button>
+            <span class="saved-flag" id="brand-saved" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Reglas ================= -->
+      <section class="panel" id="panel-rules" role="tabpanel" hidden>
+        <div class="wrap">
+          <div class="admin-card">
+            <h2>Reglas del juego</h2>
+            <div class="form-grid">
+              <label class="field">
+                <span>Espera entre giros del mismo dispositivo (horas)</span>
+                <input type="number" id="r-cooldown" min="0" max="720" step="1" />
+              </label>
+              <label class="field">
+                <span>Vigencia del premio (días)</span>
+                <input type="number" id="r-validity" min="1" max="365" step="1" />
+              </label>
+              <label class="field">
+                <span>Duración del giro (milisegundos)</span>
+                <input type="number" id="r-duration" min="1200" max="12000" step="200" />
+              </label>
+            </div>
+
+            <label class="field field--check">
+              <input type="checkbox" id="r-require-lead" />
+              <span>
+                <strong>Pedir datos antes de girar.</strong> Desactívalo para el modo discreto: sin
+                nombre ni contacto, sólo gira y muestra el premio en recepción.
+              </span>
+            </label>
+            <label class="field field--check">
+              <input type="checkbox" id="r-require-consent" />
+              <span>
+                <strong>Exigir consentimiento de privacidad.</strong> Mantenlo activo si vas a
+                contactar a los participantes: es lo que exige la LFPDPPP.
+              </span>
+            </label>
+
+            <div class="btn-row">
+              <button class="btn" type="button" id="save-rules">Guardar reglas</button>
+              <span class="saved-flag" id="rules-saved" role="status" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h2>Recordatorio de cumplimiento</h2>
+            <p class="note" style="margin: 0">
+              Las políticas de Google prohíben ofrecer incentivos a cambio de reseñas y filtrar a
+              quien quiere calificar bajo. UltraGiro entrega el premio por participar y jamás
+              bloquea el enlace público: mantenlo así. Publica también tu aviso de privacidad y
+              atiende las solicitudes de eliminación de datos.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Estadísticas ================= -->
+      <section class="panel" id="panel-stats" role="tabpanel" hidden>
+        <div class="wrap">
+          <div class="kpis" id="kpis"></div>
+
+          <div class="admin-card">
+            <h2>Premios entregados</h2>
+            <div class="bars" id="bars-prizes"></div>
+          </div>
+
+          <div class="admin-card">
+            <h2>Interés por programa</h2>
+            <div class="bars" id="bars-programs"></div>
+          </div>
+
+          <div class="admin-card">
+            <h2>Giros por día</h2>
+            <div class="bars" id="bars-days"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= Jugadas ================= -->
+      <section class="panel" id="panel-plays" role="tabpanel" hidden>
+        <div class="wrap">
+          <div class="admin-card">
+            <h2>Jugadas registradas</h2>
+            <p class="note">
+              Los datos viven en este navegador. Exporta a CSV con frecuencia y guarda el archivo en
+              tu resguardo habitual: si se borran los datos del navegador, se pierden.
+            </p>
+            <div class="btn-row" style="margin-bottom: 18px">
+              <button class="btn" type="button" id="export-csv">⬇️ Exportar CSV</button>
+              <input
+                type="search"
+                id="play-search"
+                placeholder="Buscar por nombre, código o programa"
+                style="padding: 11px 14px; border: 2px solid var(--line); border-radius: 12px; font: inherit; min-width: 260px"
+                aria-label="Buscar jugadas"
+              />
+            </div>
+            <div class="table-scroll">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Programa</th>
+                    <th>Premio</th>
+                    <th>Código</th>
+                    <th>★</th>
+                    <th>Google</th>
+                    <th>Entregado</th>
+                  </tr>
+                </thead>
+                <tbody id="play-rows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="admin-card danger-zone">
+            <h2>Zona de riesgo</h2>
+            <p class="note">
+              Borrar el histórico es irreversible. Exporta el CSV antes de hacerlo.
+            </p>
+            <button class="btn btn--ghost" type="button" id="clear-plays" style="border-color: #DC2626; color: #991B1B">
+              Borrar todas las jugadas
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/admin/main.ts"></script>
+  </body>
+</html>
