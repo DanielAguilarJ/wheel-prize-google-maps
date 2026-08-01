@@ -219,10 +219,14 @@ export const DEFAULT_CONFIG: AppConfig = Object.freeze({
     phone: '+52 55 0000 0000',
     email: 'contacto@ultravelozmente.com',
     hours: 'Lunes a sábado, 9:00 a 20:00',
-    // Enlace directo al cuadro de "escribir reseña" de la ficha de WorldBrain
-    // (Cuautitlán Izcalli). Abre el compositor de estrellas y texto, no la lista
-    // de reseñas de otras personas.
-    googleReviewUrl: 'https://search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y',
+    // Enlace corto oficial del Perfil de Empresa de WorldBrain.
+    // Se prefiere sobre search.google.com/local/writereview porque el dominio
+    // g.page está registrado como App Link / Universal Link: en un teléfono con
+    // Google Maps instalado, el sistema entrega el enlace a la app —donde la
+    // persona ya tiene su sesión abierta— en lugar de pedirle iniciar sesión en
+    // el navegador. Redirige a writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y,
+    // es decir, al cuadro para escribir, no a la lista de reseñas de otros.
+    googleReviewUrl: 'https://g.page/r/CV0943nm5-PmEBM/review',
     wheelPublicUrl: 'https://ultravelozmente.com/ruleta',
     reviewHint:
       'Cuéntanos qué programa tomas y qué cambió en tu aprendizaje (lectura, cálculo, memoria, inglés...).',

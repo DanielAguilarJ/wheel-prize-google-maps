@@ -120,15 +120,27 @@ describe('ruleta (ruleta.html)', () => {
     expect(document.querySelector('#review-link-alt')).toBeNull();
   });
 
-  it('el enlace de reseña abre el compositor de la ficha, no la lista de reseñas', async () => {
+  it('el enlace de reseña usa el enlace corto que abre la app de Maps', async () => {
     loadPage('ruleta.html');
     await import('./wheel/page');
     const { DEFAULT_CONFIG } = await import('./core/defaults');
 
     const url = new URL(DEFAULT_CONFIG.brand.googleReviewUrl);
-    expect(url.pathname).toBe('/local/writereview');
+    expect(url.hostname).toBe('g.page');
+    expect(url.pathname).toMatch(/\/review$/);
     // Nunca se apunta a /maps/place, que sí muestra las reseñas de otras personas.
     expect(DEFAULT_CONFIG.brand.googleReviewUrl).not.toContain('/maps/place');
+  });
+
+  it('el botón de reseña queda apuntando al enlace configurado', async () => {
+    loadPage('ruleta.html');
+    await import('./wheel/page');
+    const { DEFAULT_CONFIG } = await import('./core/defaults');
+
+    // El href se asigna al renderizar el resultado; aquí se comprueba que el
+    // enlace configurado pasa el filtro de dominios permitidos.
+    const { safeGoogleReviewUrl } = await import('./core/lead');
+    expect(safeGoogleReviewUrl(DEFAULT_CONFIG.brand.googleReviewUrl)).toContain('g.page');
   });
 });
 

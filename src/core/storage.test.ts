@@ -5,6 +5,7 @@ import {
   cooldownState,
   createMemoryStore,
   isPlaceholderReviewUrl,
+  isOutdatedReviewUrl,
   loadConfig,
   loadPlays,
   markSpin,
@@ -61,11 +62,18 @@ describe('mergeConfig', () => {
       brand: { googleReviewUrl: 'https://search.google.com/local/writereview?placeid=TU_PLACE_ID' },
     });
     expect(merged.brand.googleReviewUrl).toBe(DEFAULT_CONFIG.brand.googleReviewUrl);
-    expect(merged.brand.googleReviewUrl).toContain('ChIJA_UWvz4e0oURXT3jeebn4-Y');
+    expect(merged.brand.googleReviewUrl).toContain('g.page');
+  });
+
+  it('migra el enlace largo de versiones anteriores al enlace corto actual', () => {
+    const legacy = 'https://search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y';
+    expect(mergeConfig({ brand: { googleReviewUrl: legacy } }).brand.googleReviewUrl).toBe(
+      DEFAULT_CONFIG.brand.googleReviewUrl,
+    );
   });
 
   it('respeta un enlace de reseñas ya configurado', () => {
-    const custom = 'https://g.page/r/CabcDEF/review';
+    const custom = 'https://g.page/r/OtroNegocio123/review';
     expect(mergeConfig({ brand: { googleReviewUrl: custom } }).brand.googleReviewUrl).toBe(custom);
   });
 });
@@ -85,12 +93,29 @@ describe('isPlaceholderReviewUrl', () => {
   });
 });
 
+describe('isOutdatedReviewUrl', () => {
+  it('marca los valores por defecto de versiones anteriores', () => {
+    expect(
+      isOutdatedReviewUrl('https://search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y'),
+    ).toBe(true);
+  });
+
+  it('no toca el enlace actual ni uno escrito a mano', () => {
+    expect(isOutdatedReviewUrl(DEFAULT_CONFIG.brand.googleReviewUrl)).toBe(false);
+    expect(isOutdatedReviewUrl('https://g.page/r/OtroNegocio123/review')).toBe(false);
+  });
+});
+
 describe('enlace de reseña por defecto', () => {
-  it('apunta al compositor de reseñas de la ficha de WorldBrain', () => {
+  it('usa el enlace corto g.page, que en móvil abre la app de Maps', () => {
     const url = new URL(DEFAULT_CONFIG.brand.googleReviewUrl);
-    expect(url.origin).toBe('https://search.google.com');
-    expect(url.pathname).toBe('/local/writereview');
-    expect(url.searchParams.get('placeid')).toBe('ChIJA_UWvz4e0oURXT3jeebn4-Y');
+    expect(url.protocol).toBe('https:');
+    expect(url.hostname).toBe('g.page');
+    expect(url.pathname).toBe('/r/CV0943nm5-PmEBM/review');
+  });
+
+  it('no apunta a /maps/place, donde se listan las reseñas de otras personas', () => {
+    expect(DEFAULT_CONFIG.brand.googleReviewUrl).not.toContain('/maps/place');
   });
 });
 

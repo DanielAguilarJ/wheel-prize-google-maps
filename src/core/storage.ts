@@ -67,8 +67,9 @@ export function mergeConfig(stored: unknown): AppConfig {
   return {
     brand: {
       ...brand,
-      // Si quedó guardado el marcador de instalación, se usa el enlace real.
-      googleReviewUrl: isPlaceholderReviewUrl(brand.googleReviewUrl)
+      // Si quedó guardado un marcador o el enlace de una versión anterior,
+      // se usa el enlace corto actual (el que abre la app de Maps).
+      googleReviewUrl: isOutdatedReviewUrl(brand.googleReviewUrl)
         ? DEFAULT_CONFIG.brand.googleReviewUrl
         : brand.googleReviewUrl,
     },
@@ -88,6 +89,21 @@ export function mergeConfig(stored: unknown): AppConfig {
 export function isPlaceholderReviewUrl(url: unknown): boolean {
   if (typeof url !== 'string' || url.trim() === '') return true;
   return /TU_PLACE_ID|PLACE_ID_AQUI|placeid=$/i.test(url);
+}
+
+/**
+ * Enlaces que fueron el valor por defecto en versiones anteriores.
+ * Se migran al actual para que las instalaciones ya guardadas se beneficien de
+ * la mejora (el enlace corto g.page abre la app de Maps; el largo, el navegador).
+ * Un enlace escrito a mano por el equipo nunca se toca.
+ */
+const LEGACY_REVIEW_URLS: readonly string[] = Object.freeze([
+  'https://search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y',
+]);
+
+export function isOutdatedReviewUrl(url: unknown): boolean {
+  if (isPlaceholderReviewUrl(url)) return true;
+  return LEGACY_REVIEW_URLS.includes(String(url).trim());
 }
 
 export function loadConfig(store: KeyValueStore = defaultStore()): AppConfig {

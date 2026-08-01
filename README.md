@@ -47,20 +47,28 @@ npm run preview  # sirve dist/ para revisarlo antes de publicar
 1. **Abre `admin.html` → pestaña “Marca y enlaces”.**
    - WhatsApp real en formato `52` + 10 dígitos (ej. `525512345678`).
    - Correo, teléfono, horario y sede.
-2. **El enlace de reseñas ya viene configurado** con la ficha real de WorldBrain en Cuautitlán
-   Izcalli:
+2. **El enlace de reseñas ya viene configurado** con el enlace corto oficial de tu Perfil de
+   Empresa:
+
+   ```
+   https://g.page/r/CV0943nm5-PmEBM/review
+   ```
+
+   Es el que conviene usar, y no el largo, por una razón práctica: el dominio `g.page` está
+   registrado como App Link (Android) y Universal Link (iOS), así que el teléfono entrega el enlace
+   **a la app de Google Maps**, donde la persona ya tiene su sesión abierta. El enlace largo
+   (`search.google.com/local/writereview?placeid=…`) se abre en el navegador y suele pedir iniciar
+   sesión, que es donde se cae la mitad de la gente.
+
+   Verificado siguiendo la cadena de redirecciones: `g.page/r/CV0943nm5-PmEBM/review` →
+   `search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y`, es decir, el cuadro
+   para escribir de la ficha de WorldBrain. Datos de la ficha, por si los necesitas en otra
+   herramienta:
 
    ```
    Place ID: ChIJA_UWvz4e0oURXT3jeebn4-Y
    CID:      16637396425510174045
-   Enlace:   https://search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y
    ```
-
-   Se derivó del par hexadecimal `0x85d21e3ebf16f503:0xe6e3e7e679e33d5d` que aparece en la URL de
-   tu ficha de Maps (el algoritmo está verificado contra un caso de control conocido en las
-   pruebas). **Confírmalo una vez**: abre el enlace con tu sesión de Google y comprueba que el
-   cuadro que aparece diga *WorldBrain*. Si prefieres el enlace corto oficial, cópialo desde tu
-   Perfil de Empresa (*Pedir reseñas*) y pégalo en el panel; también se acepta `g.page`.
 3. **Ajusta premios y pesos** en la pestaña “Premios”. El peso es relativo: peso 22 sobre un total
    de 100 significa 22% de probabilidad. La columna de probabilidad se recalcula en vivo.
 4. **Define las reglas**: horas de espera entre giros del mismo dispositivo, vigencia del código,
@@ -87,22 +95,31 @@ inalcanzable). Con peso 0 nunca sale.
 
 ---
 
-## Por qué el visitante no ve las reseñas de otras personas
+## Por qué el visitante acaba en la app y no ve las reseñas de otras personas
 
-El enlace usa `search.google.com/local/writereview?placeid=…`, que abre **directamente el cuadro
-para escribir** (estrellas + texto). No pasa por `/maps/place/…`, que es la vista donde sí se
-listan las reseñas ajenas. Efecto práctico: quien viene de la ruleta escribe su opinión sin que la
-nota actual ni los comentarios de otros le condicionen.
+El enlace es el corto de tu Perfil de Empresa, `https://g.page/r/CV0943nm5-PmEBM/review`. Dos
+efectos, los dos buscados:
 
-Hay una prueba automática que lo protege: si alguien cambia el enlace a una URL de tipo
-`/maps/place`, la suite falla.
+1. **Abre la app de Google Maps.** `g.page` está declarado como App Link / Universal Link, así que
+   Android e iOS entregan el enlace a la app en vez de al navegador. Ahí la persona ya está
+   identificada: no hay pantalla de inicio de sesión de por medio, que es el punto donde se cae la
+   mayoría.
+2. **Aterriza en el cuadro para escribir**, no en `/maps/place/…`, que es la vista donde se listan
+   las reseñas ajenas y la nota actual. Quien viene de la ruleta escribe su opinión sin que lo de
+   los demás lo condicione.
+
+Comprobado siguiendo las redirecciones: `g.page/r/CV0943nm5-PmEBM/review` →
+`search.google.com/local/writereview?placeid=ChIJA_UWvz4e0oURXT3jeebn4-Y`. Hay una prueba
+automática que falla si alguien cambia el enlace por una URL de tipo `/maps/place`.
 
 Tres precisiones honestas:
 
-- **La UI es de Google, no mía.** Puede mostrar la nota media o el nombre del negocio en el
-  encabezado del diálogo, y en algunos dispositivos abre la app de Maps. No puedo controlar eso.
-- **No se pueden ocultar ni filtrar las reseñas que ya existen.** Nadie puede, salvo Google, y
-  sólo si una reseña viola sus políticas (puedes reportarla desde tu Perfil de Empresa).
+- **El salto a la app depende del teléfono.** Si Maps no está instalado, o el usuario abrió el QR
+  dentro del navegador interno de Instagram o Facebook, cae en el navegador y sí puede pedirle
+  iniciar sesión. Para eso no hay solución desde el código: es cómo funcionan esos navegadores
+  embebidos.
+- **No se pueden ocultar ni filtrar las reseñas que ya existen.** Nadie puede, salvo Google, y solo
+  si una reseña viola sus políticas (puedes reportarla desde tu Perfil de Empresa).
 - **La única palanca legítima para subir la nota es el volumen de reseñas genuinas.** Es
   exactamente lo que hace esta herramienta: si tu mayoría real está contenta, más reseñas mueven el
   promedio hacia arriba. Con 40 reseñas de 4.2★, sumar 60 reseñas de 5★ te deja cerca de 4.7★; con
